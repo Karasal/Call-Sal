@@ -95,24 +95,6 @@ export const getDemoContent = (id: number): string => {
       }
       .sidebar-item:hover { background: #f1f3f4; }
       .sidebar-item.active { background: #e8f0fe; color: #1a73e8; }
-      
-      .calgary-map-container {
-        background-color: #f1f5f9;
-        position: relative;
-      }
-      .map-label {
-        position: absolute;
-        font-size: 9px;
-        font-weight: 900;
-        text-transform: uppercase;
-        color: #64748b;
-        letter-spacing: 0.1em;
-        pointer-events: none;
-        background: rgba(255,255,255,0.7);
-        padding: 2px 4px;
-        border-radius: 2px;
-        z-index: 10;
-      }
     </style>
     <script>
       // Cursor Event Relay for Parent Application
@@ -132,21 +114,171 @@ export const getDemoContent = (id: number): string => {
     1: {
       title: "SALSPEND",
       html: `
-        <div class="w-full h-screen bg-black flex flex-col">
-          <iframe 
-            src="https://salspend-o2q7ljcgz-karasals-projects.vercel.app/" 
-            class="w-full h-full border-none"
-            style="cursor: none !important;"
-          ></iframe>
-          <div class="absolute bottom-4 right-4 bg-white/10 backdrop-blur-md px-4 py-2 border border-white/20 pointer-events-none">
-            <span class="text-[10px] font-bold text-white uppercase tracking-widest">LIVE DEPLOYMENT // SALSPEND.IO</span>
+        <div class="flex h-screen bg-[#0a0a0a] text-white flex-col lg:flex-row overflow-hidden">
+          <!-- Sidebar -->
+          <div class="hidden lg:flex w-64 bg-[#141414] border-r border-white/5 flex-col p-6">
+            <div class="flex items-center gap-3 mb-12">
+              <div class="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center font-black">S</div>
+              <span class="font-bold text-xl tracking-tighter">SALSPEND</span>
+            </div>
+            <nav class="space-y-2 flex-1">
+              <div class="sidebar-item active" style="background: rgba(255,255,255,0.05); color: white;" onclick="switchSalTab('dashboard')">
+                Dashboard
+              </div>
+              <div class="sidebar-item" style="color: rgba(255,255,255,0.5);" onclick="switchSalTab('transactions')">
+                Transactions
+              </div>
+              <div class="sidebar-item" style="color: rgba(255,255,255,0.5);" onclick="switchSalTab('insights')">
+                AI Analytics
+              </div>
+            </nav>
+            <div class="mt-auto p-4 bg-blue-600/10 border border-blue-600/20 rounded-xl">
+               <p class="text-[9px] font-black text-blue-400 uppercase mb-1">Subscription Audit</p>
+               <p class="text-xs font-medium">3 wasteful leaks found.</p>
+            </div>
+          </div>
+
+          <!-- Main Content -->
+          <div class="flex-1 flex flex-col overflow-y-auto custom-scrollbar">
+            <header class="h-16 border-b border-white/5 px-8 flex items-center justify-between shrink-0 bg-[#0a0a0a]/80 backdrop-blur-md sticky top-0 z-30">
+              <h2 class="text-lg font-bold">Financial Health Overview</h2>
+              <div class="flex gap-4">
+                <button class="md-button md-button-primary h-9" onclick="openExpenseModal()">+ Add Expense</button>
+              </div>
+            </header>
+
+            <main class="p-8 space-y-8">
+              <!-- Dashboard Content -->
+              <div id="sal-dashboard" class="space-y-8">
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                  <div class="bg-[#141414] border border-white/5 p-6 rounded-2xl">
+                    <p class="text-[10px] font-black text-gray-500 uppercase mb-2">Total Monthly Spend</p>
+                    <p class="text-3xl font-black text-white" id="total-spend">$4,281.40</p>
+                  </div>
+                  <div class="bg-[#141414] border border-white/5 p-6 rounded-2xl">
+                    <p class="text-[10px] font-black text-gray-500 uppercase mb-2">AI Savings Found</p>
+                    <p class="text-3xl font-black text-green-500">+$142.10</p>
+                  </div>
+                  <div class="bg-[#141414] border border-white/5 p-6 rounded-2xl">
+                    <p class="text-[10px] font-black text-gray-500 uppercase mb-2">Burn Rate</p>
+                    <p class="text-3xl font-black text-orange-500">High</p>
+                  </div>
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+                  <div class="lg:col-span-8 bg-[#141414] border border-white/5 p-8 rounded-2xl">
+                    <h3 class="text-xs font-black text-gray-500 uppercase mb-8 tracking-widest">Spending Trend</h3>
+                    <div class="h-48 flex items-end gap-2">
+                       ${[40, 60, 45, 90, 80, 55, 70, 85, 95, 100, 75, 60, 50, 40].map(v => `
+                          <div class="bg-blue-600 rounded-t w-full" style="height: ${v}%"></div>
+                       `).join('')}
+                    </div>
+                  </div>
+                  <div class="lg:col-span-4 bg-blue-600 text-white p-8 rounded-2xl flex flex-col justify-between shadow-2xl shadow-blue-600/20">
+                    <div>
+                      <h3 class="text-lg font-black mb-4 uppercase">Sal's AI Insight</h3>
+                      <p class="text-sm font-medium leading-relaxed opacity-90 italic">
+                        "Hey neighbor! You're spending $42/mo on a LinkedIn Premium subscription you haven't used since October. Should I cancel it?"
+                      </p>
+                    </div>
+                    <button class="w-full bg-white text-blue-600 font-black py-4 rounded-xl text-[10px] uppercase tracking-widest mt-8" onclick="alert('Cancelling subscription...')">EXECUTE CANCELLATION</button>
+                  </div>
+                </div>
+
+                <div class="bg-[#141414] border border-white/5 rounded-2xl overflow-hidden">
+                  <div class="p-6 border-b border-white/5 flex justify-between items-center">
+                    <h3 class="text-xs font-black text-gray-500 uppercase tracking-widest">Recent Transactions</h3>
+                  </div>
+                  <div class="divide-y divide-white/5" id="tx-list">
+                    <div class="p-4 flex items-center justify-between hover:bg-white/[0.02]">
+                       <div class="flex items-center gap-4">
+                         <div class="w-10 h-10 bg-white/5 rounded-full flex items-center justify-center text-xs font-bold text-blue-400">AMZ</div>
+                         <div><p class="font-bold text-sm">Amazon Services</p><p class="text-[10px] text-gray-500">Shopping // 2m ago</p></div>
+                       </div>
+                       <p class="font-black text-white">-$104.20</p>
+                    </div>
+                    <div class="p-4 flex items-center justify-between hover:bg-white/[0.02]">
+                       <div class="flex items-center gap-4">
+                         <div class="w-10 h-10 bg-white/5 rounded-full flex items-center justify-center text-xs font-bold text-green-400">NFLX</div>
+                         <div><p class="font-bold text-sm">Netflix</p><p class="text-[10px] text-gray-500">Subscription // Today</p></div>
+                       </div>
+                       <p class="font-black text-white">-$18.99</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </main>
+          </div>
+
+          <!-- Add Expense Modal -->
+          <div id="expense-modal" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-[100] flex items-center justify-center opacity-0 pointer-events-none transition-all duration-300">
+            <div class="bg-[#1a1a1a] border border-white/10 w-full max-w-md rounded-2xl p-8 space-y-6 transform scale-90 transition-all duration-300" id="expense-modal-content">
+               <h3 class="text-2xl font-black tracking-tighter">Log Expense</h3>
+               <div class="space-y-4">
+                 <div>
+                   <label class="text-[9px] font-black text-gray-500 uppercase tracking-widest mb-2 block">Merchant Name</label>
+                   <input type="text" id="exp-name" class="w-full bg-white/5 border-none p-4 rounded-xl text-sm outline-none focus:ring-1 focus:ring-blue-500" placeholder="e.g. Starbucks">
+                 </div>
+                 <div>
+                   <label class="text-[9px] font-black text-gray-500 uppercase tracking-widest mb-2 block">Amount ($)</label>
+                   <input type="number" id="exp-amt" class="w-full bg-white/5 border-none p-4 rounded-xl text-sm outline-none focus:ring-1 focus:ring-blue-500" placeholder="0.00">
+                 </div>
+                 <button class="w-full bg-blue-600 font-black py-4 rounded-xl uppercase text-xs tracking-[0.2em]" onclick="addExpense()">Record Transaction</button>
+                 <button class="w-full text-gray-500 text-[10px] font-black uppercase" onclick="closeExpenseModal()">Cancel</button>
+               </div>
+            </div>
           </div>
         </div>
-        <style>
-          /* Overlay styles to ensure cursor consistency if possible */
-          body, html { margin: 0; padding: 0; overflow: hidden; background: #000; }
-          * { cursor: none !important; }
-        </style>
+
+        <script>
+          let totalSpent = 4281.40;
+          
+          function switchSalTab(id) {
+             alert('Simulating tab switch to: ' + id.toUpperCase());
+          }
+
+          function openExpenseModal() {
+            document.getElementById('expense-modal').classList.remove('opacity-0', 'pointer-events-none');
+            document.getElementById('expense-modal-content').classList.remove('scale-90');
+          }
+
+          function closeExpenseModal() {
+            document.getElementById('expense-modal').classList.add('opacity-0', 'pointer-events-none');
+            document.getElementById('expense-modal-content').classList.add('scale-90');
+          }
+
+          function addExpense() {
+            const name = document.getElementById('exp-name').value;
+            const amt = parseFloat(document.getElementById('exp-amt').value);
+            
+            if(!name || isNaN(amt)) return;
+
+            // Update Total
+            totalSpent += amt;
+            document.getElementById('total-spend').innerText = '$' + totalSpent.toFixed(2);
+
+            // Add to list
+            const list = document.getElementById('tx-list');
+            const row = document.createElement('div');
+            row.className = 'p-4 flex items-center justify-between bg-blue-500/5 animate-pulse';
+            row.innerHTML = \`
+               <div class="flex items-center gap-4">
+                 <div class="w-10 h-10 bg-white/5 rounded-full flex items-center justify-center text-xs font-bold text-blue-400">\${name.substring(0,3).toUpperCase()}</div>
+                 <div><p class="font-bold text-sm">\${name}</p><p class="text-[10px] text-gray-500">General // Just Now</p></div>
+               </div>
+               <p class="font-black text-white">-\$\${amt.toFixed(2)}</p>
+            \`;
+            list.insertBefore(row, list.firstChild);
+            
+            closeExpenseModal();
+            
+            // AI reaction
+            setTimeout(() => {
+              alert("SAL'S AI: I've logged that " + name + " transaction. Keep an eye on your Daily Food limit!");
+              row.classList.remove('animate-pulse', 'bg-blue-500/5');
+            }, 1000);
+          }
+        </script>
       `
     },
     2: {

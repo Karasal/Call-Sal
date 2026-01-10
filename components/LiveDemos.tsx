@@ -1,8 +1,7 @@
 
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ArrowRight, Eye, Code, Layout, Globe, X, ExternalLink, Maximize2, Monitor, RefreshCw, ChevronRight } from 'lucide-react';
-import { getDemoContent } from '../services/demoContent';
+import { ArrowRight, Maximize2, Monitor, RefreshCw, ChevronRight, ExternalLink } from 'lucide-react';
 
 interface DemoItem {
   id: number;
@@ -10,66 +9,12 @@ interface DemoItem {
   description: string;
   category: string;
   image: string;
+  externalUrl?: string;
 }
-
-const BrowserPopup = ({ demo, onClose }: { demo: DemoItem, onClose: () => void }) => {
-  const srcDoc = getDemoContent(demo.id);
-
-  return (
-    <motion.div 
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      exit={{ opacity: 0 }}
-      className="fixed inset-0 z-[200] flex items-center justify-center p-4 md:p-8 lg:p-12 bg-black/95 backdrop-blur-xl"
-    >
-      <motion.div 
-        initial={{ scale: 0.9, y: 20 }}
-        animate={{ scale: 1, y: 0 }}
-        exit={{ scale: 0.9, y: 20 }}
-        className="relative w-full h-full max-w-7xl flex flex-col bg-black brutalist-border shadow-[0_0_100px_rgba(255,255,255,0.1)] overflow-hidden"
-      >
-        {/* Browser Chrome UI */}
-        <div className="bg-white/5 border-b border-white/10 p-4 flex items-center justify-between">
-          <div className="flex items-center gap-6 flex-1">
-            <div className="flex gap-2">
-              <div className="w-3 h-3 rounded-full bg-red-500/40" />
-              <div className="w-3 h-3 rounded-full bg-yellow-500/40" />
-              <div className="w-3 h-3 rounded-full bg-green-500/40" />
-            </div>
-            <div className="hidden md:flex items-center gap-4 bg-black/40 border border-white/10 px-4 py-1.5 flex-1 max-w-2xl">
-              <Globe size={14} className="text-white/40" />
-              <span className="text-[10px] font-sans tracking-widest text-white/60 truncate uppercase font-bold">
-                SALSPEND.IO
-              </span>
-            </div>
-          </div>
-          <div className="flex items-center gap-4">
-             <button 
-              onClick={onClose}
-              className="px-4 py-2 bg-white text-black font-heading font-black text-[10px] tracking-widest uppercase hover:bg-white/90 active:scale-95"
-            >
-              EXIT EMULATOR
-            </button>
-          </div>
-        </div>
-
-        {/* Iframe Content */}
-        <div className="flex-1 bg-black relative">
-          <iframe 
-            srcDoc={srcDoc} 
-            title={demo.title}
-            className="w-full h-full border-none"
-            sandbox="allow-scripts allow-same-origin"
-          />
-        </div>
-      </motion.div>
-    </motion.div>
-  );
-};
 
 export const LiveDemos: React.FC<{ onNext: () => void }> = ({ onNext }) => {
   const [selectedId, setSelectedId] = useState(1);
-  const [isBrowserOpen, setIsBrowserOpen] = useState(false);
+  const [isBtnHovered, setIsBtnHovered] = useState(false);
 
   const demos: DemoItem[] = [
     { 
@@ -77,43 +22,17 @@ export const LiveDemos: React.FC<{ onNext: () => void }> = ({ onNext }) => {
       title: "SALSPEND - AI Expense Tracker", 
       category: "FINANCIAL AI", 
       description: "A cutting-edge AI-powered expense tracking and analysis tool. Automatically categorizes transactions, detects spending patterns, and provides actionable financial insights using advanced machine learning models.", 
-      image: "https://images.unsplash.com/photo-1554224155-8d04cb21cd6c?auto=format&fit=crop&w=1200&q=80" 
-    },
-    { 
-      id: 2, 
-      title: "RockyView Realty Dash", 
-      category: "REAL ESTATE", 
-      description: "Sophisticated CRM and lead qualification engine for luxury real estate teams. Automatically scores social media leads and handles initial follow-ups via AI.", 
-      image: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=1200&q=80" 
-    },
-    { 
-      id: 3, 
-      title: "Stampede Staffer", 
-      category: "HOSPITALITY", 
-      description: "Dynamic labor management system designed for the high-intensity Stampede season. Features automated shift-swapping and AI-triggered inventory reordering.", 
-      image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=1200&q=80" 
-    },
-    { 
-      id: 4, 
-      title: "BowValley Health Portal", 
-      category: "HEALTHCARE", 
-      description: "Patient triage and queue management system for private clinics. Reduces reception bottlenecks with intelligent intake forms and predictive wait-time analytics.", 
-      image: "https://images.unsplash.com/photo-1551434678-e076c223a692?auto=format&fit=crop&w=1200&q=80" 
-    },
-    { 
-      id: 5, 
-      title: "17th Ave Law Vault", 
-      category: "PROFESSIONAL", 
-      description: "Secure legal document automation suite. Speeds up contract drafting with AI-powered templates and captures billable hours with seamless background tracking.", 
-      image: "https://images.unsplash.com/photo-1504384308090-c894fdcc538d?auto=format&fit=crop&w=1200&q=80" 
+      image: "salspend.png",
+      externalUrl: "https://salspend-o2q7ljcgz-karasals-projects.vercel.app/"
     }
   ];
 
   const selectedDemo = demos.find(d => d.id === selectedId) || demos[0];
 
-  const handleDemoSelect = (id: number) => {
-    setSelectedId(id);
-    setIsBrowserOpen(true);
+  const handleLaunch = () => {
+    if (selectedDemo.externalUrl) {
+      window.open(selectedDemo.externalUrl, '_blank');
+    }
   };
 
   return (
@@ -123,12 +42,12 @@ export const LiveDemos: React.FC<{ onNext: () => void }> = ({ onNext }) => {
           <span className="text-[12px] font-sans tracking-[1em] text-white/50 uppercase font-black block mb-8 leading-none">Architecture Showroom</span>
           <h2 className="text-8xl font-heading font-black text-white uppercase tracking-tighter stark-gradient leading-[0.85]">
             LIVE <br />
-            DEMOS.
+            DEMO.
           </h2>
         </div>
         <div className="max-w-md border-l-4 border-white pl-10">
           <p className="text-white/60 text-[11px] font-sans tracking-[0.25em] uppercase font-black leading-relaxed">
-            PROVEN SYSTEMS BUILT FOR CALGARY'S TOP NICHES. EXPLORE OUR BESPOKE WEB APPLICATIONS THROUGH OUR INTEGRATED EMULATOR.
+            PROVEN SYSTEMS BUILT FOR CALGARY'S TOP NICHES. EXPLORE OUR FEATURED WEB APPLICATION DIRECTLY IN YOUR BROWSER.
           </p>
         </div>
       </div>
@@ -144,20 +63,26 @@ export const LiveDemos: React.FC<{ onNext: () => void }> = ({ onNext }) => {
                 src={selectedDemo.image}
                 alt={selectedDemo.title}
                 initial={{ opacity: 0, scale: 1.1 }}
-                animate={{ opacity: 1, scale: 1 }}
+                animate={{ 
+                  opacity: isBtnHovered ? 1 : 0.6, 
+                  scale: isBtnHovered ? 1.05 : 1,
+                  filter: isBtnHovered ? "grayscale(0%)" : "grayscale(100%)"
+                }}
                 exit={{ opacity: 0, scale: 1.05 }}
                 transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-                className="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-1000 opacity-60 hover:opacity-100"
+                className="w-full h-full object-cover transition-all duration-1000"
               />
             </AnimatePresence>
             <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-60" />
             
             <div className="absolute inset-0 flex items-center justify-center p-6">
               <button 
-                onClick={() => setIsBrowserOpen(true)}
+                onClick={handleLaunch}
+                onMouseEnter={() => setIsBtnHovered(true)}
+                onMouseLeave={() => setIsBtnHovered(false)}
                 className="px-8 md:px-12 py-4 md:py-6 bg-white text-black font-heading font-black text-[10px] md:text-xs tracking-[0.3em] md:tracking-[0.5em] uppercase hover:scale-110 transition-all shadow-[15px_15px_0px_rgba(255,255,255,0.05)] md:shadow-[20px_20px_0px_rgba(255,255,255,0.05)] flex items-center gap-3 md:gap-4"
               >
-                <Monitor size={18} /> LAUNCH DEMO
+                <ExternalLink size={18} /> LAUNCH LIVE SITE
               </button>
             </div>
 
@@ -195,13 +120,15 @@ export const LiveDemos: React.FC<{ onNext: () => void }> = ({ onNext }) => {
         <div className="lg:col-span-5 flex flex-col h-full bg-black/40 overflow-hidden">
           <div className="p-8 border-b border-white/10 flex items-center justify-between">
             <span className="text-[10px] font-sans tracking-[0.4em] text-white/40 uppercase font-black">ARCHIVE DIRECTORY</span>
-            <span className="text-[10px] font-sans tracking-widest text-white/20 uppercase font-black">{demos.length} ITEMS TOTAL</span>
+            <span className="text-[10px] font-sans tracking-widest text-white/20 uppercase font-black">{demos.length} ITEM TOTAL</span>
           </div>
           <div className="flex-1 overflow-y-auto custom-scrollbar p-6 space-y-4">
             {demos.map((demo) => (
               <button
                 key={demo.id}
-                onClick={() => handleDemoSelect(demo.id)}
+                onClick={handleLaunch}
+                onMouseEnter={() => setIsBtnHovered(true)}
+                onMouseLeave={() => setIsBtnHovered(false)}
                 className={`w-full group flex items-center gap-6 p-6 border transition-all text-left relative overflow-hidden ${
                   selectedId === demo.id 
                   ? 'bg-white border-white text-black' 
@@ -236,15 +163,6 @@ export const LiveDemos: React.FC<{ onNext: () => void }> = ({ onNext }) => {
           </div>
         </div>
       </div>
-
-      <AnimatePresence>
-        {isBrowserOpen && (
-          <BrowserPopup 
-            demo={selectedDemo} 
-            onClose={() => setIsBrowserOpen(false)} 
-          />
-        )}
-      </AnimatePresence>
 
       <motion.div 
         initial={{ opacity: 0, y: 30 }}
