@@ -44,23 +44,45 @@ export const CustomCursor: React.FC = () => {
     const handleMouseDown = () => setIsMouseDown(true);
     const handleMouseUp = () => setIsMouseDown(false);
 
+    // Cross-Window Listener for Iframes (Demos)
+    const handleIframeMessage = (e: MessageEvent) => {
+      const { type, x, y, hovering } = e.data;
+      
+      if (type === 'sal-cursor-move') {
+        const iframe = document.querySelector('iframe');
+        if (iframe) {
+          const rect = iframe.getBoundingClientRect();
+          cursorX.set(rect.left + x);
+          cursorY.set(rect.top + y);
+        }
+      } else if (type === 'sal-cursor-down') {
+        setIsMouseDown(true);
+      } else if (type === 'sal-cursor-up') {
+        setIsMouseDown(false);
+      } else if (type === 'sal-cursor-hover') {
+        setIsHovering(hovering);
+      }
+    };
+
     window.addEventListener('mousemove', handleMouseMove);
     window.addEventListener('mouseover', handleMouseOver);
     window.addEventListener('mousedown', handleMouseDown);
     window.addEventListener('mouseup', handleMouseUp);
+    window.addEventListener('message', handleIframeMessage);
     
     return () => {
       window.removeEventListener('mousemove', handleMouseMove);
       window.removeEventListener('mouseover', handleMouseOver);
       window.removeEventListener('mousedown', handleMouseDown);
       window.removeEventListener('mouseup', handleMouseUp);
+      window.removeEventListener('message', handleIframeMessage);
     };
   }, [cursorX, cursorY]);
 
   if (isTouchDevice) return null;
 
   return (
-    <>
+    <div aria-hidden="true">
       {/* Outer Glow / Follower */}
       <motion.div
         className="fixed top-0 left-0 w-12 h-12 pointer-events-none z-[9999] flex items-center justify-center mix-blend-difference"
@@ -87,6 +109,6 @@ export const CustomCursor: React.FC = () => {
           scale: isMouseDown ? 0.5 : 1,
         }}
       />
-    </>
+    </div>
   );
 };

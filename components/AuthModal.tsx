@@ -104,7 +104,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose, onSuccess
               {mode === 'login' ? (
                 <form onSubmit={handleLogin} className="space-y-6">
                   <div className="relative">
-                    <Mail className="absolute left-4 top-1/2 -translate-y-1/2 text-white/30" size={18} />
+                    <Mail className="absolute left-4 top-1/2 -translate-y-1/2 text-white/70" size={18} />
                     <input 
                       required
                       type="email"
@@ -114,7 +114,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose, onSuccess
                     />
                   </div>
                   <div className="relative">
-                    <Lock className="absolute left-4 top-1/2 -translate-y-1/2 text-white/30" size={18} />
+                    <Lock className="absolute left-4 top-1/2 -translate-y-1/2 text-white/70" size={18} />
                     <input 
                       required
                       type="password"
@@ -131,10 +131,10 @@ export const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose, onSuccess
                 <div className="space-y-8">
                   {regStep === 1 ? (
                     <div className="space-y-8 text-center">
-                      <div className="w-16 h-16 border-2 border-white/20 flex items-center justify-center mx-auto opacity-40">
+                      <div className="w-16 h-16 border-2 border-white/20 flex items-center justify-center mx-auto opacity-70">
                         <Key size={24} />
                       </div>
-                      <p className="text-[10px] font-sans font-black tracking-widest text-white/40 uppercase">ENTER THE REGISTRATION KEY PROVIDED BY YOUR ARCHITECT</p>
+                      <p className="text-[10px] font-sans font-black tracking-widest text-white/70 uppercase">ENTER THE REGISTRATION KEY PROVIDED BY YOUR ARCHITECT</p>
                       <input 
                         value={keyInput}
                         onChange={e => setKeyInput(e.target.value.toUpperCase())}
@@ -152,10 +152,10 @@ export const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose, onSuccess
                     <form onSubmit={handleFinalizeReg} className="space-y-6">
                       <div className="flex items-center gap-4 p-4 bg-white/5 border border-white/10 mb-4">
                         <CheckCircle size={16} className="text-green-500" />
-                        <span className="text-[9px] font-sans font-black tracking-widest text-white/60 uppercase">KEY VALIDATED. SETUP CREDENTIALS.</span>
+                        <span className="text-[9px] font-sans font-black tracking-widest text-white/70 uppercase">KEY VALIDATED. SETUP CREDENTIALS.</span>
                       </div>
                       <div className="relative">
-                        <Mail className="absolute left-4 top-1/2 -translate-y-1/2 text-white/30" size={18} />
+                        <Mail className="absolute left-4 top-1/2 -translate-y-1/2 text-white/70" size={18} />
                         <input 
                           required
                           type="email"
@@ -165,7 +165,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose, onSuccess
                         />
                       </div>
                       <div className="relative">
-                        <Lock className="absolute left-4 top-1/2 -translate-y-1/2 text-white/30" size={18} />
+                        <Lock className="absolute left-4 top-1/2 -translate-y-1/2 text-white/70" size={18} />
                         <input 
                           required
                           type="password"
@@ -175,7 +175,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose, onSuccess
                         />
                       </div>
                       <div className="relative">
-                        <Lock className="absolute left-4 top-1/2 -translate-y-1/2 text-white/30" size={18} />
+                        <Lock className="absolute left-4 top-1/2 -translate-y-1/2 text-white/70" size={18} />
                         <input 
                           required
                           type="password"
@@ -200,7 +200,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose, onSuccess
                     setRegStep(1);
                     setError('');
                   }}
-                  className="text-[10px] font-sans font-black tracking-widest uppercase transition-colors text-white/40 hover:text-white"
+                  className="text-[10px] font-sans font-black tracking-widest uppercase transition-colors text-white/70 hover:text-white"
                 >
                   {mode === 'login' ? "HAVE A KEY? REGISTER ACCESS" : "ALREADY REGISTERED? LOGIN HERE"}
                 </button>
