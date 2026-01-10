@@ -1,3 +1,4 @@
+
 import React, { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ArrowRight, Eye, Code, Layout, Globe, X, ExternalLink, Maximize2, Monitor, RefreshCw, ChevronRight } from 'lucide-react';
@@ -38,7 +39,7 @@ const BrowserPopup = ({ demo, onClose }: { demo: DemoItem, onClose: () => void }
             <div className="hidden md:flex items-center gap-4 bg-black/40 border border-white/10 px-4 py-1.5 flex-1 max-w-2xl">
               <Globe size={14} className="text-white/40" />
               <span className="text-[10px] font-sans tracking-widest text-white/60 truncate uppercase font-bold">
-                SAL-DEMO-0{demo.id}.APP
+                SALSPEND.IO
               </span>
             </div>
           </div>
@@ -73,10 +74,10 @@ export const LiveDemos: React.FC<{ onNext: () => void }> = ({ onNext }) => {
   const demos: DemoItem[] = [
     { 
       id: 1, 
-      title: "PetroPulse Logistics", 
-      category: "OIL & GAS", 
-      description: "A high-performance monitoring dashboard for Calgary-based energy service companies. Includes AI-driven fuel burn analytics and real-time safety audit automation.", 
-      image: "https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=1200&q=80" 
+      title: "SALSPEND - AI Expense Tracker", 
+      category: "FINANCIAL AI", 
+      description: "A cutting-edge AI-powered expense tracking and analysis tool. Automatically categorizes transactions, detects spending patterns, and provides actionable financial insights using advanced machine learning models.", 
+      image: "https://images.unsplash.com/photo-1554224155-8d04cb21cd6c?auto=format&fit=crop&w=1200&q=80" 
     },
     { 
       id: 2, 
