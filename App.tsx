@@ -12,7 +12,7 @@ import { AuthModal } from './components/AuthModal';
 import { Dashboard } from './components/Dashboard';
 import { storage } from './services/storageService';
 import { motion, AnimatePresence } from 'framer-motion';
-import { LayoutGrid, Zap, MessageSquare, Phone, User, Target, Youtube, Home, MonitorPlay, LogIn, UserPlus, LogOut } from 'lucide-react';
+import { LayoutGrid, Zap, MessageSquare, Phone, User, Target, Youtube, Home, MonitorPlay, LogIn, UserPlus, LogOut, Menu, X, Mail, MapPin, Clock } from 'lucide-react';
 import { ServiceDetail, User as IUser } from './types';
 
 const Sidebar = ({ activeTab, setActiveTab, onAuth, currentUser, setCurrentUser }: { 
@@ -25,105 +25,83 @@ const Sidebar = ({ activeTab, setActiveTab, onAuth, currentUser, setCurrentUser 
   const [isYearHovered, setIsYearHovered] = useState(false);
 
   const handleLogout = () => {
-    // 1. Move to home first
     setActiveTab('overview');
-    // 2. Clear state and storage
     storage.setCurrentUser(null);
     setCurrentUser(null);
   };
 
   const tabs = [
-    { id: 'overview', icon: <Home size={18} />, label: 'WELCOME' },
-    { id: 'about', icon: <User size={18} />, label: 'MEET SALMAN' },
-    { id: 'automation', icon: <Zap size={18} />, label: 'BUSINESS AUTOMATION' },
-    { id: 'sales', icon: <Target size={18} />, label: 'SALES GENERATION' },
-    { id: 'consultation', icon: <MessageSquare size={18} />, label: 'FREE CONSULTATION' },
-    { id: 'demos', icon: <MonitorPlay size={18} />, label: 'LIVE DEMOS' },
-    ...(currentUser ? [{ id: 'dashboard', icon: <LayoutGrid size={18} />, label: currentUser.role === 'admin' ? 'ADMIN PANEL' : 'CLIENT HUB' }] : []),
+    { id: 'overview', icon: <Home size={20} />, label: 'WELCOME' },
+    { id: 'about', icon: <User size={20} />, label: 'MEET SALMAN' },
+    { id: 'automation', icon: <Zap size={20} />, label: 'BUSINESS AUTOMATION' },
+    { id: 'sales', icon: <Target size={20} />, label: 'SALES GENERATION' },
+    { id: 'consultation', icon: <MessageSquare size={20} />, label: 'FREE CONSULTATION' },
+    { id: 'demos', icon: <MonitorPlay size={20} />, label: 'LIVE DEMOS' },
+    ...(currentUser ? [{ id: 'dashboard', icon: <LayoutGrid size={20} />, label: currentUser.role === 'admin' ? 'ADMIN PANEL' : 'CLIENT HUB' }] : []),
   ];
 
   return (
-    <div className="w-20 md:w-72 h-full bg-black border-r border-white/10 flex flex-col py-10 z-50 shrink-0 overflow-y-auto custom-scrollbar">
-      <div className="mb-20 flex flex-col items-center md:items-start gap-4 px-8">
-        <div className="bg-white px-4 py-1.5 flex items-center justify-center text-black font-heading font-black text-3xl tracking-tighter">
-          SAL.
+    <div className="fixed bottom-0 left-0 w-full h-16 lg:relative lg:w-72 lg:h-full bg-black border-t lg:border-t-0 lg:border-r border-white/10 flex flex-row lg:flex-col items-center lg:items-stretch py-0 lg:py-10 z-[100] shrink-0 overflow-y-hidden lg:overflow-y-auto custom-scrollbar">
+      {/* Desktop Logo Area */}
+      <div className="hidden lg:flex flex-col items-center lg:items-start gap-4 px-8 mb-20">
+        <div className="bg-white px-4 py-1.5 flex items-center justify-center text-black font-heading font-black text-3xl tracking-tighter uppercase">
+          CALL SAL.
         </div>
-        <div className="hidden md:block">
+        <div>
           <p className="text-[10px] font-sans tracking-[0.2em] text-white uppercase font-black leading-tight">// AI SOLUTIONS EXPERT</p>
         </div>
       </div>
 
-      <nav className="flex-1">
+      <nav className="flex-1 flex flex-row lg:flex-col w-full justify-around lg:justify-start">
         {tabs.map((tab) => (
           <button
             key={tab.id}
             onClick={() => setActiveTab(tab.id)}
-            className={`w-full flex items-center gap-6 px-8 py-5 group relative transition-all duration-300 text-left ${
+            className={`flex-1 lg:flex-none flex items-center justify-center lg:justify-start gap-6 px-4 lg:px-8 py-4 lg:py-5 group relative transition-all duration-300 text-left ${
               activeTab === tab.id ? 'text-white' : 'text-white/40 hover:text-white/80'
             }`}
           >
             <span className="shrink-0">{tab.icon}</span>
-            <span className="hidden md:block font-heading text-[11px] tracking-[0.2em] font-bold uppercase leading-none">{tab.label}</span>
+            <span className="hidden lg:block font-heading text-[11px] tracking-[0.2em] font-bold uppercase leading-none">{tab.label}</span>
             {activeTab === tab.id && (
-              <motion.div layoutId="activeTabIndicator" className="absolute left-0 w-1 h-full bg-white" />
+              <motion.div layoutId="activeTabIndicator" className="absolute left-0 bottom-0 lg:bottom-auto lg:w-1 lg:h-full h-1 w-full lg:bg-white bg-white" />
             )}
           </button>
         ))}
       </nav>
 
-      <div className="px-8 mb-10 space-y-4">
+      <div className="hidden lg:block px-8 mb-10 space-y-4">
         {!currentUser ? (
           <div className="flex flex-col gap-2">
-            <button 
-              onClick={onAuth}
-              className="w-full flex items-center gap-4 py-3 text-white/40 hover:text-white transition-all border border-white/5 hover:border-white/20 px-4 group"
-            >
+            <button onClick={onAuth} className="w-full flex items-center gap-4 py-3 text-white/40 hover:text-white transition-all border border-white/5 hover:border-white/20 px-4 group">
               <LogIn size={16} className="group-hover:scale-110 transition-transform" />
-              <span className="hidden md:block text-[9px] font-heading font-black tracking-widest uppercase">LOGIN</span>
+              <span className="text-[9px] font-heading font-black tracking-widest uppercase">LOGIN</span>
             </button>
-            <button 
-              onClick={onAuth}
-              className="w-full flex items-center gap-4 py-4 bg-white text-black transition-all border border-white px-4 group shadow-[8px_8px_0_rgba(255,255,255,0.1)] active:scale-95 hover:translate-x-1"
-            >
+            <button onClick={onAuth} className="w-full flex items-center gap-4 py-4 bg-white text-black transition-all border border-white px-4 group shadow-[8px_8px_0_rgba(255,255,255,0.1)] active:scale-95 hover:translate-x-1">
               <UserPlus size={16} className="text-black" />
-              <span className="hidden md:block text-[10px] font-heading font-black tracking-widest uppercase">REGISTER</span>
+              <span className="text-[10px] font-heading font-black tracking-widest uppercase">REGISTER</span>
             </button>
           </div>
         ) : (
           <div className="flex flex-col gap-4 border-t border-white/10 pt-8">
              <div className="flex items-center gap-4 cursor-pointer group" onClick={() => setActiveTab('dashboard')}>
                 <img src={currentUser.avatar} className="w-10 h-10 border border-white/20 group-hover:border-white transition-colors" alt="" />
-                <div className="hidden md:block overflow-hidden">
+                <div className="overflow-hidden">
                   <div className="text-[10px] font-heading font-black text-white uppercase truncate group-hover:underline">{currentUser.name}</div>
                   <span className="text-[8px] font-sans font-black text-white/40 uppercase">View Dashboard</span>
                 </div>
              </div>
-             <button 
-              onClick={handleLogout}
-              className="w-full flex items-center gap-4 py-3 text-red-500/60 hover:text-red-500 transition-all border border-red-500/5 hover:border-red-500/20 px-4 group"
-             >
+             <button onClick={handleLogout} className="w-full flex items-center gap-4 py-3 text-red-500/60 hover:text-red-500 transition-all border border-red-500/5 hover:border-red-500/20 px-4 group">
               <LogOut size={16} />
-              <span className="hidden md:block text-[9px] font-heading font-black tracking-widest uppercase">LOGOUT</span>
+              <span className="text-[9px] font-heading font-black tracking-widest uppercase">LOGOUT</span>
              </button>
           </div>
         )}
       </div>
 
-      <div className="px-8 pt-10 border-t border-white/5 space-y-2" onMouseEnter={() => setIsYearHovered(true)} onMouseLeave={() => setIsYearHovered(false)}>
-        <p className="text-[8px] font-sans tracking-[0.3em] text-white/40 uppercase font-black flex items-center gap-1 cursor-default">
+      <div className="hidden lg:block px-8 pt-10 border-t border-white/5 space-y-2" onMouseEnter={() => setIsYearHovered(true)} onMouseLeave={() => setIsYearHovered(false)}>
+        <p className="text-[8px] font-sans tracking-[0.3em] text-white/40 uppercase font-black flex items-center gap-1">
           <span>EST.</span>
-          <span className="relative inline-flex overflow-hidden">
-            <AnimatePresence mode="wait">
-              {isYearHovered ? (
-                <motion.span key="2025" initial={{ y: 10, opacity: 0 }} animate={{ y: 0, opacity: 1 }} exit={{ y: -10, opacity: 0 }} className="text-white">2025</motion.span>
-              ) : (
-                <motion.span key="MMXXV" initial={{ y: 10, opacity: 0 }} animate={{ y: 0, opacity: 1 }} exit={{ y: -10, opacity: 0 }}>MMXXV</motion.span>
-              )}
-            </AnimatePresence>
-          </span>
-        </p>
-        <p className="text-[8px] font-sans tracking-[0.3em] text-white/40 uppercase font-black flex items-center gap-1 cursor-default whitespace-nowrap">
-          <span>© SIMPLESALMAN</span>
           <span className="relative inline-flex overflow-hidden">
             <AnimatePresence mode="wait">
               {isYearHovered ? (
@@ -134,36 +112,121 @@ const Sidebar = ({ activeTab, setActiveTab, onAuth, currentUser, setCurrentUser 
             </AnimatePresence>
           </span>
         </p>
+        <p className="text-[8px] font-sans tracking-[0.3em] text-white/40 uppercase font-black flex items-center gap-1 whitespace-nowrap">
+          <span>© SIMPLESALMAN</span>
+        </p>
       </div>
     </div>
   );
 };
 
-const HeaderHUD = () => {
+const HeaderHUD = ({ onAuth, currentUser }: { onAuth: () => void, currentUser: IUser | null }) => {
   const [mstTime, setMstTime] = useState("");
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+
   useEffect(() => {
     const updateTime = () => setMstTime(new Date().toLocaleTimeString('en-US', { timeZone: 'America/Denver', hour: 'numeric', minute: '2-digit', hour12: true }));
     updateTime();
     const interval = setInterval(updateTime, 1000);
     return () => clearInterval(interval);
   }, []);
+
   return (
-    <header className="h-16 px-10 flex items-center justify-between z-40 border-b border-white/5 bg-black/50 backdrop-blur-md sticky top-0">
-      <div className="flex items-center gap-8">
-        <span className="text-[10px] font-sans tracking-[0.2em] text-white/80 uppercase font-bold hidden md:block">
-          CALL: 905-749-0266 | E-MAIL: INFO@CALLSAL.APP | BASED IN CALGARY, AB
-        </span>
-      </div>
-      <div className="flex items-center gap-10">
-        <div className="hidden sm:flex items-center gap-2">
-          <span className="text-[10px] font-sans font-bold text-white uppercase tracking-widest">{mstTime}</span>
-          <span className="text-[10px] font-sans tracking-widest text-white/50 uppercase font-bold">MST</span>
+    <>
+      <header className="h-16 px-6 lg:px-10 flex items-center justify-between z-40 border-b border-white/5 bg-black/50 backdrop-blur-md sticky top-0">
+        {/* Left: Logo (Visible on mobile and tablet) */}
+        <div className="flex items-center">
+          <div className="bg-white px-3 py-1 text-black font-heading font-black text-xl tracking-tighter mr-4 lg:hidden uppercase">
+            CALL SAL.
+          </div>
+          <div className="hidden lg:flex items-center gap-8">
+            <span className="text-[10px] font-sans tracking-[0.2em] text-white/80 uppercase font-bold">
+              CALL: 905-749-0266 | E-MAIL: INFO@CALLSAL.APP | CALGARY, AB
+            </span>
+          </div>
         </div>
-        <a href="tel:905-749-0266" className="flex items-center gap-3 px-8 py-2.5 bg-white text-black font-heading font-black text-[10px] tracking-[0.2em] transition-all hover:bg-white/90 active:scale-95 shadow-[8px_8px_0_rgba(255,255,255,0.1)]">
-          <Phone size={12} /> CALL SAL
-        </a>
-      </div>
-    </header>
+
+        {/* Center: Tagline Removed as requested */}
+        <div className="flex-1 text-center">
+        </div>
+
+        {/* Right: Hamburger (Mobile/Tablet) or Time/Call (Desktop) */}
+        <div className="flex items-center gap-6 lg:gap-10">
+          <div className="hidden lg:flex items-center gap-2">
+            <span className="text-[10px] font-sans font-bold text-white uppercase tracking-widest">{mstTime}</span>
+            <span className="text-[10px] font-sans tracking-widest text-white/50 uppercase font-bold">MST</span>
+          </div>
+          <button 
+            onClick={() => setIsMenuOpen(!isMenuOpen)} 
+            className="lg:hidden text-white hover:text-white/70 transition-colors"
+          >
+            {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
+          </button>
+          <a href="tel:905-749-0266" className="hidden lg:flex items-center gap-3 px-8 py-2.5 bg-white text-black font-heading font-black text-[10px] tracking-[0.2em] transition-all hover:bg-white/90 active:scale-95 shadow-[8px_8px_0_rgba(255,255,255,0.1)]">
+            <Phone size={12} /> CALL SAL
+          </a>
+        </div>
+      </header>
+
+      {/* Expanded Hamburger Menu (Mobile & Tablet) */}
+      <AnimatePresence>
+        {isMenuOpen && (
+          <motion.div 
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -20 }}
+            className="lg:hidden fixed top-16 right-6 z-[60] w-[calc(100%-3rem)] max-w-sm brutalist-panel bg-black border-white p-8 shadow-[20px_20px_0_rgba(255,255,255,0.05)]"
+          >
+            <div className="space-y-6">
+              <div className="flex items-center gap-4 text-white/60">
+                <Phone size={16} />
+                <div className="flex flex-col">
+                  <span className="text-[8px] font-sans font-black tracking-widest uppercase opacity-40">CALL</span>
+                  <span className="text-[10px] font-heading font-bold uppercase">905-749-0266</span>
+                </div>
+              </div>
+              <div className="flex items-center gap-4 text-white/60">
+                <Mail size={16} />
+                <div className="flex flex-col">
+                  <span className="text-[8px] font-sans font-black tracking-widest uppercase opacity-40">EMAIL</span>
+                  <span className="text-[10px] font-heading font-bold uppercase">INFO@CALLSAL.APP</span>
+                </div>
+              </div>
+              <div className="flex items-center gap-4 text-white/60">
+                <MapPin size={16} />
+                <div className="flex flex-col">
+                  <span className="text-[8px] font-sans font-black tracking-widest uppercase opacity-40">BASED IN</span>
+                  <span className="text-[10px] font-heading font-bold uppercase">CALGARY, AB</span>
+                </div>
+              </div>
+              <div className="flex items-center gap-4 text-white/60">
+                <Clock size={16} />
+                <div className="flex flex-col">
+                  <span className="text-[8px] font-sans font-black tracking-widest uppercase opacity-40">LOCAL TIME</span>
+                  <span className="text-[10px] font-heading font-bold uppercase">{mstTime} MST</span>
+                </div>
+              </div>
+              
+              <div className="pt-4 border-t border-white/10 flex flex-col gap-3">
+                <a href="tel:905-749-0266" className="w-full flex items-center justify-center gap-4 py-4 bg-white text-black font-heading font-black text-[10px] tracking-widest uppercase">
+                  <Phone size={14} /> CALL SAL NOW
+                </a>
+                {!currentUser && (
+                  <>
+                    <button onClick={() => { onAuth(); setIsMenuOpen(false); }} className="w-full flex items-center justify-center gap-4 py-4 border border-white/20 text-white font-heading font-black text-[10px] tracking-widest uppercase">
+                      <LogIn size={14} /> LOGIN
+                    </button>
+                    <button onClick={() => { onAuth(); setIsMenuOpen(false); }} className="w-full flex items-center justify-center gap-4 py-4 bg-white text-black font-heading font-black text-[10px] tracking-widest uppercase">
+                      <UserPlus size={14} /> REGISTER
+                    </button>
+                  </>
+                )}
+              </div>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </>
   );
 };
 
@@ -171,15 +234,15 @@ const App: React.FC = () => {
   const [activeTab, setActiveTab] = useState('overview');
   const [currentUser, setCurrentUser] = useState<IUser | null>(storage.getCurrentUser());
   const [selectedService, setSelectedService] = useState<ServiceDetail | null>(null);
-  const [isPortfolioVisible, setIsPortfolioVisible] = useState(false);
   const [isAuthOpen, setIsAuthOpen] = useState(false);
 
   const handleNavigation = (tabId: string) => {
     setActiveTab(tabId);
     setSelectedService(null);
-    setIsPortfolioVisible(false);
     const mainContent = document.querySelector('main');
     if (mainContent) mainContent.scrollTop = 0;
+    // On mobile, also scroll body to top
+    window.scrollTo(0, 0);
   };
 
   const renderContent = () => {
@@ -187,19 +250,19 @@ const App: React.FC = () => {
       return <ServiceDetailView service={selectedService} onBack={() => setSelectedService(null)} />;
     }
     switch (activeTab) {
-      case 'overview': return <Hero onStart={() => handleNavigation('about')} onConsultation={() => handleNavigation('consultation')} isPortfolioVisible={isPortfolioVisible} onTogglePortfolio={setIsPortfolioVisible} />;
+      case 'overview': return <Hero onStart={() => handleNavigation('about')} onConsultation={() => handleNavigation('consultation')} />;
       case 'about': return <MeetSalman onNext={() => handleNavigation('automation')} />;
       case 'automation': return <ServiceGrid category="automation" onSelect={setSelectedService} onNext={() => handleNavigation('sales')} />;
       case 'sales': return <SalesGeneration onSelect={setSelectedService} onNext={() => handleNavigation('consultation')} />;
       case 'consultation': return <ChatSal onDemos={() => handleNavigation('demos')} />;
       case 'demos': return <LiveDemos onNext={() => handleNavigation('consultation')} />;
       case 'dashboard': return currentUser ? <Dashboard user={currentUser} /> : null;
-      default: return <Hero onStart={() => handleNavigation('about')} onConsultation={() => handleNavigation('consultation')} isPortfolioVisible={isPortfolioVisible} onTogglePortfolio={setIsPortfolioVisible} />;
+      default: return <Hero onStart={() => handleNavigation('about')} onConsultation={() => handleNavigation('consultation')} />;
     }
   };
 
   return (
-    <div className="relative h-screen w-screen flex bg-black overflow-hidden selection:bg-white selection:text-black font-heading">
+    <div className="relative min-h-screen lg:h-screen w-screen flex flex-col lg:flex-row bg-black lg:overflow-hidden selection:bg-white selection:text-black font-heading">
       <CustomCursor />
       <Sidebar 
         activeTab={activeTab} 
@@ -208,9 +271,9 @@ const App: React.FC = () => {
         currentUser={currentUser}
         setCurrentUser={setCurrentUser}
       />
-      <div className="flex-1 flex flex-col relative">
-        <HeaderHUD />
-        <main className={`flex-1 overflow-x-hidden relative p-4 md:p-6 lg:p-8 custom-scrollbar scroll-smooth ${activeTab === 'overview' && !isPortfolioVisible ? 'overflow-hidden' : 'overflow-y-auto'}`}>
+      <div className="flex-1 flex flex-col relative pb-16 lg:pb-0">
+        <HeaderHUD onAuth={() => setIsAuthOpen(true)} currentUser={currentUser} />
+        <main className="flex-1 overflow-x-hidden relative p-4 md:p-6 lg:p-8 lg:overflow-y-auto custom-scrollbar scroll-smooth">
           <AnimatePresence mode="wait">
             <motion.div key={activeTab + (selectedService?.id || '')} initial={{ opacity: 0, y: 30, scale: 0.98 }} animate={{ opacity: 1, y: 0, scale: 1 }} exit={{ opacity: 0, y: -30, scale: 0.98 }} transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }} className="min-h-full">
               {renderContent()}

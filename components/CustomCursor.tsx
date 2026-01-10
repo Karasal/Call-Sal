@@ -5,6 +5,7 @@ import { motion, useSpring, useMotionValue } from 'framer-motion';
 export const CustomCursor: React.FC = () => {
   const [isHovering, setIsHovering] = useState(false);
   const [isMouseDown, setIsMouseDown] = useState(false);
+  const [isTouchDevice, setIsTouchDevice] = useState(false);
 
   const cursorX = useMotionValue(-100);
   const cursorY = useMotionValue(-100);
@@ -14,6 +15,12 @@ export const CustomCursor: React.FC = () => {
   const cursorYSpring = useSpring(cursorY, springConfig);
 
   useEffect(() => {
+    // Detect touch device
+    const checkTouch = () => {
+      setIsTouchDevice(window.matchMedia('(hover: none)').matches);
+    };
+    checkTouch();
+
     const handleMouseMove = (e: MouseEvent) => {
       cursorX.set(e.clientX);
       cursorY.set(e.clientY);
@@ -49,6 +56,8 @@ export const CustomCursor: React.FC = () => {
       window.removeEventListener('mouseup', handleMouseUp);
     };
   }, [cursorX, cursorY]);
+
+  if (isTouchDevice) return null;
 
   return (
     <>

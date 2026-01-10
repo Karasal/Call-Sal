@@ -62,8 +62,8 @@ export const SalesGeneration: React.FC<{ onSelect: (s: ServiceDetail) => void, o
     <div className="max-w-7xl mx-auto py-20">
       <div className="mb-32 flex flex-col md:flex-row items-end justify-between gap-16">
         <div className="flex-1">
-          <span className="text-[12px] font-sans tracking-[1em] text-white/50 uppercase font-black block mb-8 leading-none">Get More Customers</span>
-          <h2 className="text-8xl font-heading font-black text-white uppercase tracking-tighter stark-gradient leading-[0.85]">
+          <span className="text-[10px] md:text-[12px] font-sans tracking-[0.4em] md:tracking-[1em] text-white/50 uppercase font-black block mb-8 leading-none">Get More Customers</span>
+          <h2 className="text-6xl md:text-8xl font-heading font-black text-white uppercase tracking-tighter stark-gradient leading-[0.85]">
             SALES <br />
             GENERATION.
           </h2>

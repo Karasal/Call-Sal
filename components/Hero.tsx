@@ -1,3 +1,4 @@
+
 import React, { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence, useScroll, useTransform } from 'framer-motion';
 import { Send, MessageCircle, Play, ChevronRight, Workflow, Youtube, X, ExternalLink, Activity, Target, Phone } from 'lucide-react';
@@ -165,12 +166,12 @@ const VideoPortfolio = ({ onConsultation }: { onConsultation: () => void }) => {
               <h3 className="text-4xl font-heading font-black uppercase tracking-tighter leading-none mb-4">{activeProject.title}</h3>
               <p className="text-[12px] font-sans font-black tracking-[0.4em] uppercase opacity-40">{activeProject.company} // CREATIVE SUITE 2.5</p>
             </div>
-            <a 
-              href="tel:905-749-0266"
+            <button 
+              onClick={onConsultation}
               className="px-14 py-8 bg-black text-white font-heading font-black text-xs tracking-[0.4em] uppercase hover:bg-black/90 transition-all active:scale-95 shadow-[15px_15px_0px_rgba(0,0,0,0.1)] flex items-center gap-4"
             >
               <Phone size={14} /> FREE CONSULTATION
-            </a>
+            </button>
           </div>
         </div>
 
@@ -189,7 +190,7 @@ const VideoPortfolio = ({ onConsultation }: { onConsultation: () => void }) => {
                 className={`w-full brutalist-panel p-6 flex items-center gap-6 group transition-all text-left relative overflow-hidden ${
                   activeProject.id === p.id 
                   ? 'bg-white/10 border-white shadow-[inset_0_0_40px_rgba(255,255,255,0.1)] scale-[1.02]' 
-                  : 'bg-transparent border-white/5 hover:border-white/20'
+                  : 'bg-transparent border-white/5 hover:border-white/20 text-white'
                 }`}
               >
                 <div className="w-24 h-16 bg-white/5 overflow-hidden flex-shrink-0 relative border border-white/10">
@@ -200,7 +201,7 @@ const VideoPortfolio = ({ onConsultation }: { onConsultation: () => void }) => {
                   />
                   {activeProject.id === p.id && <div className="absolute inset-0 bg-white/20 animate-pulse" />}
                 </div>
-                <div className="flex-1 overflow-hidden relative z-10">
+                <div className="flex-1 min-w-0">
                   <h4 className={`text-[12px] font-heading font-black uppercase truncate mb-1 ${activeProject.id === p.id ? 'text-white' : 'text-white/40'}`}>
                     {p.title}
                   </h4>
@@ -230,6 +231,8 @@ const VideoPortfolio = ({ onConsultation }: { onConsultation: () => void }) => {
 
 const HeroChat = () => {
   const [input, setInput] = useState('');
+  const [isExpanded, setIsExpanded] = useState(false);
+  const chatRef = useRef<HTMLDivElement>(null);
   const [messages, setMessages] = useState<{ role: 'user' | 'model', text: string }[]>([
     { role: 'model', text: "Hi - I'm your new pal, Sal! 👋\n\nI'm an independent freelancer who builds custom software and high-level marketing content. My goal is simple: reduce your costs and boost your sales.\n\nTell me what your business does and I'll show you exactly where we can automate!" }
   ]);
@@ -240,7 +243,15 @@ const HeroChat = () => {
     if (scrollRef.current) {
       scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
     }
-  }, [messages, isTyping]);
+  }, [messages, isTyping, isExpanded]);
+
+  useEffect(() => {
+    if (isExpanded && window.innerWidth < 1024) {
+      setTimeout(() => {
+        chatRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }, 300);
+    }
+  }, [isExpanded]);
 
   const handleAudit = async () => {
     if (!input.trim()) return;
@@ -256,11 +267,18 @@ const HeroChat = () => {
 
   return (
     <motion.div
+      ref={chatRef}
+      layout
       initial={{ opacity: 0, scale: 0.95 }}
       animate={{ opacity: 1, scale: 1 }}
-      className="brutalist-panel w-full h-[500px] lg:h-[550px] flex flex-col border-white overflow-hidden shadow-[40px_40px_0_rgba(255,255,255,0.02)] scanline-overlay"
+      className={`brutalist-panel w-full transition-all duration-500 flex flex-col border-white overflow-hidden shadow-[40px_40px_0_rgba(255,255,255,0.02)] scanline-overlay ${
+        isExpanded ? 'h-[500px] lg:h-[550px]' : 'h-auto lg:h-[550px]'
+      }`}
     >
-      <div className="p-3 border-b border-white bg-white text-black flex items-center justify-between relative z-20">
+      <div 
+        className="p-3 border-b border-white bg-white text-black flex items-center justify-between relative z-20 cursor-pointer lg:cursor-default"
+        onClick={() => setIsExpanded(!isExpanded)}
+      >
         <div className="flex items-center gap-4">
           <div className="w-8 h-8 bg-black flex items-center justify-center">
              <MessageCircle size={16} className="text-white" />
@@ -270,63 +288,71 @@ const HeroChat = () => {
             <span className="text-[8px] font-sans tracking-widest uppercase opacity-40">Sal // ARCHITECT v3.1</span>
           </div>
         </div>
-        <div className="flex items-center gap-3 bg-black/5 px-3 py-1.5 border border-black/10">
+        <button 
+          onClick={(e) => { e.stopPropagation(); setIsExpanded(!isExpanded); }}
+          className="flex items-center gap-3 bg-black/5 px-3 py-1.5 border border-black/10 group transition-all active:scale-95"
+        >
           <div 
             className={`w-1.5 h-1.5 rounded-full transition-all duration-300 animate-pulse ${
-              input.length > 0 || isTyping ? 'bg-green-500 shadow-[0_0_8px_#22c55e]' : 'bg-black'
+              input.length > 0 || isTyping || isExpanded ? 'bg-green-500 shadow-[0_0_8px_#22c55e]' : 'bg-black'
             }`} 
           />
-          <span className="text-[9px] font-sans font-black uppercase tracking-widest">ACTIVE SESSION</span>
-        </div>
+          <span className="text-[9px] font-sans font-black uppercase tracking-widest">
+            <span className="hidden lg:inline">ACTIVE SESSION</span>
+            <span className="lg:hidden inline">{isExpanded ? 'ACTIVE SESSION' : 'START SESSION'}</span>
+          </span>
+        </button>
       </div>
 
-      <div ref={scrollRef} className="flex-1 overflow-y-auto p-6 space-y-6 custom-scrollbar bg-black/60 backdrop-blur-md">
-        <AnimatePresence initial={false}>
-          {messages.map((m, i) => (
-            <motion.div
-              key={i}
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              className={`flex ${m.role === 'user' ? 'justify-end' : 'justify-start'}`}
-            >
-              <div className={`max-w-[85%] p-5 ${
-                m.role === 'user' 
-                ? 'bg-white text-black font-bold border-black shadow-[10px_10px_0_rgba(255,255,255,0.05)]' 
-                : 'border-l-4 border-white text-white font-medium bg-white/[0.04] backdrop-blur-lg'
-              }`}>
-                <div className="text-[13px] font-heading tracking-tight leading-relaxed">
-                  <FormattedHeroText text={m.text} />
+      <div className={`flex-1 flex flex-col overflow-hidden ${isExpanded ? 'flex' : 'hidden lg:flex'}`}>
+        <div ref={scrollRef} className="flex-1 overflow-y-auto p-6 space-y-6 custom-scrollbar bg-black/60 backdrop-blur-md">
+          <AnimatePresence initial={false}>
+            {messages.map((m, i) => (
+              <motion.div
+                key={i}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                className={`flex ${m.role === 'user' ? 'justify-end' : 'justify-start'}`}
+              >
+                <div className={`max-w-[85%] p-5 ${
+                  m.role === 'user' 
+                  ? 'bg-white text-black font-bold border-black shadow-[10px_10px_0_rgba(255,255,255,0.05)]' 
+                  : 'border-l-4 border-white text-white font-medium bg-white/[0.04] backdrop-blur-lg'
+                }`}>
+                  <div className="text-[13px] font-heading tracking-tight leading-relaxed">
+                    <FormattedHeroText text={m.text} />
+                  </div>
                 </div>
-              </div>
-            </motion.div>
-          ))}
-        </AnimatePresence>
-        {isTyping && (
-          <div className="flex justify-start">
-             <div className="flex gap-2 p-3 border border-white/10 bg-white/5 backdrop-blur-sm">
-                <span className="w-1.5 h-1.5 bg-white/40 rounded-full animate-bounce" />
-                <span className="w-1.5 h-1.5 bg-white/40 rounded-full animate-bounce [animation-delay:0.2s]" />
-                <span className="w-1.5 h-1.5 bg-white/40 rounded-full animate-bounce [animation-delay:0.4s]" />
-             </div>
-          </div>
-        )}
-      </div>
+              </motion.div>
+            ))}
+          </AnimatePresence>
+          {isTyping && (
+            <div className="flex justify-start">
+               <div className="flex gap-2 p-3 border border-white/10 bg-white/5 backdrop-blur-sm">
+                  <span className="w-1.5 h-1.5 bg-white/40 rounded-full animate-bounce" />
+                  <span className="w-1.5 h-1.5 bg-white/40 rounded-full animate-bounce [animation-delay:0.2s]" />
+                  <span className="w-1.5 h-1.5 bg-white/40 rounded-full animate-bounce [animation-delay:0.4s]" />
+               </div>
+            </div>
+          )}
+        </div>
 
-      <div className="p-6 border-t border-white/10 bg-black/90 relative z-20">
-        <div className="relative">
-          <input
-            value={input}
-            onChange={(e) => setInput(e.target.value)}
-            onKeyDown={(e) => e.key === 'Enter' && handleAudit()}
-            placeholder="Tell Sal about your current workflow..."
-            className="w-full bg-transparent border border-white/10 p-4 pr-16 focus:outline-none focus:border-white transition-all text-sm font-heading font-semibold placeholder:text-white/50"
-          />
-          <button
-            onClick={handleAudit}
-            className="absolute right-3 top-1/2 -translate-y-1/2 w-10 h-10 bg-white text-black flex items-center justify-center hover:bg-white/80 transition-all active:scale-95"
-          >
-            <Send size={16} />
-          </button>
+        <div className="p-6 border-t border-white/10 bg-black/90 relative z-20">
+          <div className="relative">
+            <input
+              value={input}
+              onChange={(e) => setInput(e.target.value)}
+              onKeyDown={(e) => e.key === 'Enter' && handleAudit()}
+              placeholder="Tell Sal about your current workflow..."
+              className="w-full bg-transparent border border-white/10 p-4 pr-16 focus:outline-none focus:border-white transition-all text-sm font-heading font-semibold placeholder:text-white/50"
+            />
+            <button
+              onClick={handleAudit}
+              className="absolute right-3 top-1/2 -translate-y-1/2 w-10 h-10 bg-white text-black flex items-center justify-center hover:bg-white/80 transition-all active:scale-95"
+            >
+              <Send size={16} />
+            </button>
+          </div>
         </div>
       </div>
     </motion.div>
@@ -335,10 +361,8 @@ const HeroChat = () => {
 
 export const Hero: React.FC<{ 
   onStart: () => void, 
-  onConsultation: () => void,
-  isPortfolioVisible: boolean,
-  onTogglePortfolio: (visible: boolean) => void 
-}> = ({ onStart, onConsultation, isPortfolioVisible, onTogglePortfolio }) => {
+  onConsultation: () => void
+}> = ({ onStart, onConsultation }) => {
   const portfolioRef = useRef<HTMLDivElement>(null);
   const { scrollY } = useScroll();
   
@@ -346,10 +370,7 @@ export const Hero: React.FC<{
   const y2 = useTransform(scrollY, [0, 500], [0, 100]);
 
   const togglePortfolio = () => {
-    onTogglePortfolio(true);
-    setTimeout(() => {
-      portfolioRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    }, 100);
+    portfolioRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
   };
 
   return (
@@ -374,12 +395,13 @@ export const Hero: React.FC<{
                <div className="w-12 h-[2px] bg-white" />
                <span className="text-[10px] font-sans tracking-[0.8em] text-white/70 uppercase font-black leading-none block">INDEPENDENT AI OPERATOR</span>
             </div>
-            <h1 className="text-4xl md:text-[6.5rem] lg:text-[7.5rem] font-heading font-black mb-4 pb-6 leading-[0.8] tracking-tighter uppercase stark-gradient">
+            {/* Scale adjustment for tablet landscape/laptops */}
+            <h1 className="text-4xl md:text-[5.5rem] lg:text-[6rem] xl:text-[7.5rem] font-heading font-black mb-4 pb-6 leading-[0.8] tracking-tighter uppercase stark-gradient">
               HI - IT'S <br />
               YOUR NEW <br />
               PAL, SAL!
             </h1>
-            <p className="text-lg md:text-xl lg:text-2xl text-white/90 mb-6 leading-tight font-heading font-medium max-w-2xl tracking-tighter italic border-l-4 border-white/20 pl-6">
+            <p className="text-lg md:text-lg lg:text-xl xl:text-2xl text-white/90 mb-6 leading-tight font-heading font-medium max-w-2xl tracking-tighter italic border-l-4 border-white/20 pl-6">
               "We dramatically reduce operating costs and automate lead generation through bespoke AI systems."
             </p>
             <div className="flex flex-col sm:flex-row gap-4">
@@ -389,7 +411,7 @@ export const Hero: React.FC<{
               >
                 <div className="relative z-10 flex items-center justify-center gap-4">
                   <Workflow size={16} />
-                  HOW IT WORKS &gt;
+                  HOW IT WORKS
                 </div>
                 <div className="absolute inset-0 bg-black/5 -translate-x-full group-hover:translate-x-0 transition-transform duration-500" />
               </button>
@@ -412,18 +434,15 @@ export const Hero: React.FC<{
         <div className="absolute -bottom-40 -left-40 w-[600px] h-[600px] bg-white/[0.01] blur-[120px] rounded-full pointer-events-none -z-10" />
       </div>
 
-      <AnimatePresence>
-        {isPortfolioVisible && (
-          <motion.div 
-            ref={portfolioRef}
-            initial={{ opacity: 0, y: 100 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
-          >
-            <VideoPortfolio onConsultation={onConsultation} />
-          </motion.div>
-        )}
-      </AnimatePresence>
+      <motion.div 
+        ref={portfolioRef}
+        initial={{ opacity: 0, y: 100 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
+      >
+        <VideoPortfolio onConsultation={onConsultation} />
+      </motion.div>
     </div>
   );
 };

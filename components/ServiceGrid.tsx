@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { motion } from 'framer-motion';
 import { Bot, Workflow, Rocket, TrendingUp, Users, Video, ArrowRight, Cog, Database, ShieldCheck, Clock, Monitor, Link } from 'lucide-react';
@@ -98,8 +97,8 @@ export const ServiceGrid: React.FC<GridProps> = ({ category = 'automation', onSe
     <div className="max-w-7xl mx-auto py-20" id="automation">
       <div className="mb-32 flex flex-col md:flex-row items-end justify-between gap-16">
         <div className="flex-1">
-          <span className="text-[12px] font-sans tracking-[1em] text-white/50 uppercase font-black block mb-8 leading-none">The Boring Stuff: Fixed</span>
-          <h2 className="text-8xl font-heading font-black text-white uppercase tracking-tighter stark-gradient leading-[0.85]">
+          <span className="text-[10px] md:text-[12px] font-sans tracking-[0.4em] md:tracking-[1em] text-white/50 uppercase font-black block mb-8 leading-none">The Boring Stuff: Fixed</span>
+          <h2 className="text-5xl md:text-8xl font-heading font-black text-white uppercase tracking-tighter stark-gradient leading-[0.85]">
             BUSINESS <br />
             AUTOMATION.
           </h2>

@@ -141,8 +141,8 @@ export const MeetSalman: React.FC<{ onNext: () => void }> = ({ onNext }) => {
       {/* Header */}
       <div className="mb-24">
         <span className="text-[12px] font-sans tracking-[1.2em] text-white/50 uppercase font-black block mb-8 text-center leading-none">Your New Partner in Growth</span>
-        <h2 className="text-8xl md:text-[12rem] font-heading font-black text-white uppercase tracking-tighter text-center leading-[0.7] stark-gradient">
-          MEET SALMAN.
+        <h2 className="text-5xl sm:text-7xl md:text-[12rem] font-heading font-black text-white uppercase tracking-tighter text-center leading-[0.7] stark-gradient">
+          MEET <br className="sm:hidden" /> SALMAN.
         </h2>
       </div>
 
@@ -407,10 +407,10 @@ export const MeetSalman: React.FC<{ onNext: () => void }> = ({ onNext }) => {
         initial={{ opacity: 0, scale: 0.95 }}
         whileInView={{ opacity: 1, scale: 1 }}
         viewport={{ once: true }}
-        className="brutalist-panel p-24 text-center relative overflow-hidden group border-white/20"
+        className="brutalist-panel p-8 md:p-24 text-center relative overflow-hidden group border-white/20"
       >
         <div className="absolute inset-0 bg-white opacity-0 group-hover:opacity-5 transition-opacity pointer-events-none" />
-        <h3 className="text-6xl md:text-8xl font-heading font-black text-white uppercase tracking-tighter mb-16 stark-gradient">SAVE TIME. SAVE MONEY.</h3>
+        <h3 className="text-5xl md:text-8xl font-heading font-black text-white uppercase tracking-tighter mb-16 stark-gradient px-4">SAVE TIME. SAVE MONEY.</h3>
         <button 
           className="flex items-center justify-center gap-6 mx-auto px-10 md:px-20 py-8 md:py-10 bg-white text-black font-heading font-black text-lg tracking-[0.5em] uppercase hover:scale-105 transition-all shadow-[20px_20px_0px_rgba(255,255,255,0.1)] active:scale-95"
           onClick={onNext}
