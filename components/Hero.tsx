@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Play, ChevronRight, X, ExternalLink, Activity, Target, Terminal, Cpu, Layers, Database, Shield, Bot, GitBranch, TrendingUp, MonitorPlay, Heart, Radio, Camera, Award, Star, Info } from 'lucide-react';
+import { Play, ChevronRight, X, ExternalLink, Activity, Target, Terminal, Cpu, Layers, Database, Shield, Bot, GitBranch, TrendingUp, MonitorPlay, Heart, Radio, Camera, Award, Star, Info, Zap, Settings, HardDrive, Share2, Eye } from 'lucide-react';
 import { getSalResponse } from '../services/geminiService';
 
 const FormattedHeroText = ({ text }: { text: string }) => {
@@ -323,7 +323,7 @@ export const Hero: React.FC<{ onStart: () => void, onConsultation: () => void }>
                                     exit={{ height: 0, opacity: 0 }}
                                     className="px-4 pb-4 border-t border-white/5"
                                   >
-                                    <p className="pt-3 text-[10px] font-sans font-medium text-white/60 uppercase leading-relaxed tracking-tight">
+                                    <p className="pt-3 text-[10px] font-sans font-medium text-white/40 uppercase leading-relaxed tracking-tight">
                                       {m.explanation}
                                     </p>
                                   </motion.div>
@@ -473,60 +473,181 @@ const VideoPortfolio = ({ onConsultation }: { onConsultation: () => void }) => {
                 </div>
               </div>
 
-              {/* RED KOMODO-X HARDWARE SHOWCASE ASSEMBLY - NICE AND WIDE */}
+              {/* REDESIGNED RED KOMODO-X HARDWARE SHOWCASE ASSEMBLY */}
               <div className="w-full pt-10">
-                <div className="brutalist-panel p-10 lg:p-16 bg-black border-white/10 overflow-hidden relative group text-left">
-                  <div className="absolute -top-10 -right-10 p-8 opacity-5 group-hover:opacity-20 transition-opacity">
-                    <Camera size={300} className="text-white" />
+                <div className="brutalist-panel bg-black border-white/10 overflow-hidden relative group text-left p-0 shadow-[0_0_50px_rgba(255,0,0,0.1)]">
+                  {/* HERO HEADER AREA */}
+                  <div className="bg-[#FF0000] p-10 lg:p-16 flex flex-col md:flex-row justify-between items-start md:items-end gap-10 relative overflow-hidden">
+                    <div className="absolute top-0 right-0 opacity-10 pointer-events-none transform translate-x-1/4 -translate-y-1/4">
+                       <Zap size={600} className="text-black" />
+                    </div>
+                    <div className="relative z-10 max-w-2xl">
+                        <span className="text-[11px] font-mono tracking-[0.5em] text-black uppercase font-black block mb-6 px-3 py-1 bg-white/20 inline-block">OPTICAL_CORE_SPEC</span>
+                        <h4 className="text-5xl lg:text-8xl font-heading font-black text-black uppercase tracking-tighter leading-[0.8] mb-6">RED KOMODO-X</h4>
+                        <p className="text-base lg:text-xl font-heading font-black text-black/80 uppercase tracking-tight max-w-lg">
+                          The absolute pinnacle of S35 global shutter technology. Official <span className="text-white">Netflix Approved</span> and the choice for modern Hollywood masterworks.
+                        </p>
+                    </div>
+                    <div className="relative z-10 flex flex-col items-end">
+                      <div className="text-right mb-6">
+                        <p className="text-[10px] font-mono font-black text-black/50 uppercase tracking-widest">PEDIGREE_REGISTRY</p>
+                        <p className="text-sm font-heading font-black text-white uppercase">REBEL MOON // THE KILLER // ROAD HOUSE</p>
+                      </div>
+                      <div className="px-8 py-4 bg-black text-white font-mono font-black text-xs uppercase tracking-widest shadow-2xl border border-white/20">6K_S35_GS_CMOS</div>
+                    </div>
                   </div>
-                  
-                  <div className="relative z-10 flex flex-col gap-12">
-                    <div className="flex flex-col sm:flex-row justify-between items-start sm:items-end gap-6">
-                      <div>
-                        <span className="text-[11px] font-mono tracking-[0.5em] text-[#CCFF00] uppercase font-black block mb-4">HARDWARE_PROFILE</span>
-                        <h4 className="text-4xl lg:text-6xl font-heading font-black text-white uppercase tracking-tighter leading-[0.8]">RED KOMODO-X</h4>
-                        <p className="text-xs font-mono text-white/40 uppercase tracking-[0.3em] mt-6">HOLLYWOOD 6K GLOBAL SHUTTER SENSOR ARCHITECTURE</p>
+
+                  {/* TECHNICAL DATA GRID */}
+                  <div className="p-8 lg:p-16 grid grid-cols-1 lg:grid-cols-12 gap-12 bg-[#080808]">
+                    {/* VISUAL SHOWCASE */}
+                    <div className="lg:col-span-7 space-y-12">
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-8">
+                        <div className="relative group/feat p-8 border border-white/5 bg-white/[0.02] hover:bg-white/[0.05] transition-all">
+                           <div className="absolute top-4 left-4 text-[#FF0000]"><Settings size={20} /></div>
+                           <h5 className="text-xs font-mono font-black text-white/40 uppercase mb-4 pl-8">LOCKING_RF_MOUNT</h5>
+                           <p className="text-sm font-heading font-bold text-white uppercase leading-tight pr-6">
+                             Reinforced locking mechanism supporting heavy-duty cinema lenses without the need for PL adapters in many workflows.
+                           </p>
+                        </div>
+                        <div className="relative group/feat p-8 border border-white/5 bg-white/[0.02] hover:bg-white/[0.05] transition-all">
+                           <div className="absolute top-4 left-4 text-[#FF0000]"><HardDrive size={20} /></div>
+                           <h5 className="text-xs font-mono font-black text-white/40 uppercase mb-4 pl-8">CFEXPRESS_DATA</h5>
+                           <p className="text-sm font-heading font-bold text-white uppercase leading-tight pr-6">
+                             Utilizing the massive bandwidth of CFexpress Type B to record high-bitrate REDCODE® RAW without compromise.
+                           </p>
+                        </div>
                       </div>
-                      <div className="bg-[#CCFF00] px-6 py-3 text-black font-mono font-black text-xs uppercase tracking-tighter shadow-2xl">6K_RAW_WORKFLOW</div>
+
+                      <div className="aspect-video relative overflow-hidden border border-white/10 group/img shadow-2xl bg-black">
+                         <img 
+                           src="https://images.red.com/komodo-x/kx-rf-main-features-2x.jpg" 
+                           className="w-full h-full object-cover opacity-80 group-hover/img:opacity-100 transition-all duration-1000 scale-105 group-hover/img:scale-100" 
+                           alt="RED Komodo-X Main Features" 
+                         />
+                         <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent"></div>
+                         <div className="absolute bottom-8 left-8">
+                            <span className="text-[10px] font-mono font-black text-[#FF0000] uppercase block mb-2">SYSTEM_ARCH_VIEW</span>
+                            <p className="text-2xl font-heading font-black text-white uppercase tracking-tighter">REFINED POWER DISTRIBUTION</p>
+                         </div>
+                      </div>
+
+                      <div className="grid grid-cols-2 gap-8">
+                         <div className="space-y-4">
+                            <span className="text-[10px] font-mono font-black text-white/30 uppercase tracking-widest">DATA_CONNECTIVITY</span>
+                            <div className="flex items-center gap-4 p-4 border border-white/5 bg-white/[0.01]">
+                               <Share2 size={16} className="text-[#FF0000]" />
+                               <p className="text-[11px] font-mono font-black text-white/70 uppercase">USB-C 10GBPS INTERFACE</p>
+                            </div>
+                            <div className="flex items-center gap-4 p-4 border border-white/5 bg-white/[0.01]">
+                               <Activity size={16} className="text-[#FF0000]" />
+                               <p className="text-[11px] font-mono font-black text-white/70 uppercase">12G-SDI OUTPUT (4K 60P)</p>
+                            </div>
+                         </div>
+                         <div className="space-y-4">
+                            <span className="text-[10px] font-mono font-black text-white/30 uppercase tracking-widest">MONITORING</span>
+                            <div className="flex items-center gap-4 p-4 border border-white/5 bg-white/[0.01]">
+                               <Eye size={16} className="text-[#FF0000]" />
+                               <p className="text-[11px] font-mono font-black text-white/70 uppercase">2.4" INTEGRATED LCD</p>
+                            </div>
+                            <div className="flex items-center gap-4 p-4 border border-white/5 bg-white/[0.01]">
+                               <Radio size={16} className="text-[#FF0000]" />
+                               <p className="text-[11px] font-mono font-black text-white/70 uppercase">IP LIVE BROADCAST CAPABLE</p>
+                            </div>
+                         </div>
+                      </div>
                     </div>
 
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-8">
-                      <div className="aspect-[16/9] overflow-hidden border border-white/5 bg-white/5 relative group/img shadow-2xl">
-                          <img 
-                            src="https://images.red.com/komodo-x/kx-rf-main-features-2x.jpg" 
-                            className="w-full h-full object-cover grayscale group-hover/img:grayscale-0 transition-all duration-1000" 
-                            alt="RED Komodo-X Front" 
-                          />
-                          <div className="absolute top-4 left-4 bg-black/80 backdrop-blur-md px-3 py-1 text-[9px] font-mono text-white/90 uppercase font-black border border-white/10">FRONT_PROFILE</div>
+                    {/* DEEP SPEC BREAKDOWN */}
+                    <div className="lg:col-span-5 space-y-12 lg:border-l lg:border-white/10 lg:pl-12">
+                      <div className="space-y-6">
+                         <h5 className="text-xl font-heading font-black text-white uppercase tracking-tight flex items-center gap-4">
+                            <span className="w-8 h-px bg-[#FF0000]"></span>
+                            SENSOR CORE
+                         </h5>
+                         <div className="space-y-4">
+                            <div className="flex justify-between items-end border-b border-white/10 pb-4">
+                               <span className="text-[10px] font-mono font-black text-white/40 uppercase">ACTIVE_PIXELS</span>
+                               <span className="text-sm font-heading font-black text-white uppercase">6144 X 3240 (6K)</span>
+                            </div>
+                            <div className="flex justify-between items-end border-b border-white/10 pb-4">
+                               <span className="text-[10px] font-mono font-black text-white/40 uppercase">SENSOR_SIZE</span>
+                               <span className="text-sm font-heading font-black text-white uppercase">27.03MM X 14.26MM (S35)</span>
+                            </div>
+                            <div className="flex justify-between items-end border-b border-white/10 pb-4">
+                               <span className="text-[10px] font-mono font-black text-white/40 uppercase">DYNAMIC_RANGE</span>
+                               <span className="text-sm font-heading font-black text-white uppercase">16.5+ STOPS</span>
+                            </div>
+                            <div className="flex justify-between items-end border-b border-white/10 pb-4">
+                               <span className="text-[10px] font-mono font-black text-white/40 uppercase">SHUTTER_TYPE</span>
+                               <span className="text-sm font-heading font-black text-[#FF0000] uppercase">GLOBAL SHUTTER</span>
+                            </div>
+                         </div>
                       </div>
-                      <div className="aspect-[16/9] overflow-hidden border border-white/5 bg-white/5 relative group/img shadow-2xl">
-                          <img 
-                            src="https://images.red.com/komodo-x/slide-io-array-blk.png" 
-                            className="w-full h-full object-cover grayscale group-hover/img:grayscale-0 transition-all duration-1000" 
-                            alt="RED Komodo-X Back" 
-                          />
-                          <div className="absolute top-4 left-4 bg-black/80 backdrop-blur-md px-3 py-1 text-[9px] font-mono text-white/90 uppercase font-black border border-white/10">DATA_I/O_ARRAY</div>
-                      </div>
-                    </div>
 
-                    <div className="grid grid-cols-1 sm:grid-cols-4 gap-8 pt-10 border-t border-white/5">
-                      <div className="flex flex-col gap-2">
-                          <span className="text-[9px] font-mono text-white/40 uppercase tracking-widest font-black">DYNAMIC_RANGE</span>
-                          <span className="text-[12px] font-heading font-black text-white uppercase">16.5+ REAL-WORLD STOPS</span>
+                      <div className="space-y-6">
+                         <h5 className="text-xl font-heading font-black text-white uppercase tracking-tight flex items-center gap-4">
+                            <span className="w-8 h-px bg-[#FF0000]"></span>
+                            PERFORMANCE
+                         </h5>
+                         <div className="space-y-4">
+                            <div className="flex justify-between items-end border-b border-white/10 pb-4">
+                               <span className="text-[10px] font-mono font-black text-white/40 uppercase">MAX_FRAME_RATE (6K)</span>
+                               <span className="text-sm font-heading font-black text-white uppercase">80 FPS (17:9)</span>
+                            </div>
+                            <div className="flex justify-between items-end border-b border-white/10 pb-4">
+                               <span className="text-[10px] font-mono font-black text-white/40 uppercase">MAX_FRAME_RATE (4K)</span>
+                               <span className="text-sm font-heading font-black text-white uppercase">120 FPS (17:9)</span>
+                            </div>
+                            <div className="flex justify-between items-end border-b border-white/10 pb-4">
+                               <span className="text-[10px] font-mono font-black text-white/40 uppercase">MAX_FRAME_RATE (2K)</span>
+                               <span className="text-sm font-heading font-black text-white uppercase">240 FPS (17:9)</span>
+                            </div>
+                            <div className="flex justify-between items-end border-b border-white/10 pb-4">
+                               <span className="text-[10px] font-mono font-black text-white/40 uppercase">BURST_MODE</span>
+                               <span className="text-sm font-heading font-black text-white uppercase">UP TO 560MB/S DATA</span>
+                            </div>
+                         </div>
                       </div>
-                      <div className="flex flex-col gap-2">
-                          <span className="text-[9px] font-mono text-white/40 uppercase tracking-widest font-black">RECORDING_CODEC</span>
-                          <span className="text-[12px] font-heading font-black text-white uppercase">16-BIT REDCODE® RAW</span>
+
+                      <div className="p-8 bg-[#FF0000]/5 border border-[#FF0000]/30 relative overflow-hidden group/box">
+                         <div className="absolute top-0 right-0 p-4 text-[#FF0000]/20 group-hover/box:text-[#FF0000]/40 transition-colors">
+                            <Award size={48} />
+                         </div>
+                         <h6 className="text-lg font-heading font-black text-white uppercase mb-4 tracking-tighter">NETFLIX_CERTIFIED</h6>
+                         <p className="text-xs font-heading font-bold text-white/60 uppercase leading-relaxed mb-6">
+                            FULLY VALIDATED BY NETFLIX FOR 4K CONTENT DELIVERY. THE KOMODO-X MEETS THE STRICTEST SENSOR AND RECORDING STANDARDS IN WORLDWIDE BROADCAST.
+                         </p>
+                         <button className="text-[9px] font-mono font-black text-[#FF0000] uppercase tracking-[0.3em] hover:underline">
+                            VIEW_CERTIFICATION_LOGS
+                         </button>
                       </div>
-                      <div className="flex flex-col gap-2">
-                          <span className="text-[9px] font-mono text-white/40 uppercase tracking-widest font-black">COLOR_SCIENCE</span>
-                          <span className="text-[12px] font-heading font-black text-white uppercase">IPP2 IMAGE PIPELINE</span>
-                      </div>
-                      <div className="flex flex-col gap-2">
-                          <span className="text-[9px] font-mono text-white/40 uppercase tracking-widest font-black">SENSOR_TYPE</span>
-                          <span className="text-[12px] font-heading font-black text-white uppercase">6K GLOBAL SHUTTER CMOS</span>
+
+                      <div className="aspect-video relative overflow-hidden border border-white/10 shadow-xl bg-black">
+                         <img 
+                           src="https://images.red.com/komodo-x/slide-io-array-blk.png" 
+                           className="w-full h-full object-cover grayscale opacity-50 hover:grayscale-0 hover:opacity-100 transition-all duration-700" 
+                           alt="RED Komodo-X I/O Ports" 
+                         />
+                         <div className="absolute top-4 right-4 bg-black/80 px-2 py-1 text-[7px] font-mono text-white/90 uppercase font-black border border-white/10">EXPANSION_ARRAY_REAR</div>
                       </div>
                     </div>
+                  </div>
+
+                  {/* BOTTOM FOOTER BAR */}
+                  <div className="p-8 lg:p-12 bg-white flex flex-col md:flex-row items-center justify-between gap-8 border-t border-white/10">
+                     <div className="flex items-center gap-6">
+                        <div className="w-12 h-12 bg-[#FF0000] flex items-center justify-center text-black shrink-0">
+                           <Star size={24} />
+                        </div>
+                        <div>
+                           <p className="text-[11px] font-mono font-black text-black uppercase tracking-widest leading-none mb-1">OPTICAL_EXCELLENCE</p>
+                           <p className="text-sm font-heading font-black text-black/40 uppercase leading-none">THE INDUSTRY-STANDARD S35 SENSOR.</p>
+                        </div>
+                     </div>
+                     <div className="flex gap-4">
+                        <div className="px-6 py-3 border border-black/10 text-black font-mono font-black text-[10px] uppercase tracking-widest">IPP2_COLOR_PIPELINE</div>
+                        <div className="px-6 py-3 border border-black/10 text-black font-mono font-black text-[10px] uppercase tracking-widest">REDCODE_RAW_16BIT</div>
+                     </div>
                   </div>
                 </div>
               </div>

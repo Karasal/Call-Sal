@@ -1,7 +1,5 @@
 {
   "name": "Call Sal",
   "description": "A modern, parallax agency landing page for Sal, specializing in AI-driven business automation, custom software, and creative content.",
-  "requestFramePermissions": [
-    "microphone"
-  ]
+  "requestFramePermissions": []
 }
