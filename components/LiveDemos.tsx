@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Maximize2, ChevronRight, ExternalLink, X, Layout, CheckCircle2, Zap, Cpu } from 'lucide-react';
+import { Maximize2, ChevronRight, ExternalLink, X, Layout, CheckCircle2, Zap, Cpu, Globe, Link2, AlertCircle } from 'lucide-react';
 
 interface DemoItem {
   id: number;
@@ -8,7 +8,7 @@ interface DemoItem {
   description: string;
   category: string;
   image: string;
-  externalUrl?: string;
+  externalUrl: string;
   roi: string;
   tech: string[];
   color: string;
@@ -17,6 +17,12 @@ interface DemoItem {
 export const LiveDemos: React.FC<{ onNext: () => void }> = ({ onNext }) => {
   const [selectedId, setSelectedId] = useState(1);
   const [showCaseStudy, setShowCaseStudy] = useState(false);
+  const [isUnfurling, setIsUnfurling] = useState(false);
+  const [imageErrors, setImageErrors] = useState<Record<number, boolean>>({});
+
+  const getUnfurlUrl = (url: string) => {
+    return `https://api.microlink.io?url=${encodeURIComponent(url)}&screenshot=true&meta=false&embed=screenshot.url`;
+  };
 
   const demos: DemoItem[] = [
     { 
@@ -24,8 +30,8 @@ export const LiveDemos: React.FC<{ onNext: () => void }> = ({ onNext }) => {
       title: "INFOVISION", 
       category: "SMART DATA HELP", 
       description: "A tool that turns messy, complicated data into simple, beautiful charts and graphs that anyone can understand.", 
-      image: "/infographic.png",
       externalUrl: "https://infovision.vercel.app/",
+      image: "", // Populated via unfurl
       roi: "40% Less Time Reading Reports",
       tech: ["Smart Mapping", "Real-time Charts"],
       color: "#CCFF00"
@@ -35,8 +41,8 @@ export const LiveDemos: React.FC<{ onNext: () => void }> = ({ onNext }) => {
       title: "CHROME BUILDER", 
       category: "ROBOT BUILDER", 
       description: "A specialized AI that can code and build fully working browser tools just by listening to your voice commands.", 
-      image: "/chrome.png",
       externalUrl: "https://chrome-extension-builder-bot.vercel.app/",
+      image: "",
       roi: "10x Faster Coding Speed",
       tech: ["AI Brain", "Auto-Code Scripts"],
       color: "#9333EA"
@@ -46,8 +52,8 @@ export const LiveDemos: React.FC<{ onNext: () => void }> = ({ onNext }) => {
       title: "SALSPEND", 
       category: "MONEY TRACKER", 
       description: "A smart tool that watches your spending and automatically finds where you are wasting money on subscriptions.", 
-      image: "/salspend.png",
       externalUrl: "https://salspend.vercel.app/",
+      image: "",
       roi: "$2k/mo Waste Detected",
       tech: ["AI Receipt Scanner", "Auto-Sorting Logic"],
       color: "#3B82F6"
@@ -57,8 +63,8 @@ export const LiveDemos: React.FC<{ onNext: () => void }> = ({ onNext }) => {
       title: "VIRAL FACTORY", 
       category: "CONTENT MAKER", 
       description: "A massive engine that makes hundreds of videos and stories for kids' channels every single hour.", 
-      image: "/story.png",
       externalUrl: "https://story-book-debug.vercel.app/",
+      image: "",
       roi: "100+ Videos Every Hour",
       tech: ["Image Gen AI", "Auto-Scripting"],
       color: "#F472B6"
@@ -68,15 +74,24 @@ export const LiveDemos: React.FC<{ onNext: () => void }> = ({ onNext }) => {
       title: "HISTORIA", 
       category: "CREATIVE HELP", 
       description: "A tool for creators that makes history come alive with AI-generated visuals and talking points.", 
-      image: "/history.png",
       externalUrl: "https://historia-agent-asset-generator.vercel.app/",
+      image: "",
       roi: "Lower Editing Costs",
       tech: ["Storytelling AI", "Visual Maker"],
       color: "#F97316"
     }
-  ];
+  ].map(demo => ({
+    ...demo,
+    image: getUnfurlUrl(demo.externalUrl)
+  }));
 
   const selectedDemo = demos.find(d => d.id === selectedId) || demos[0];
+
+  useEffect(() => {
+    setIsUnfurling(true);
+    const timer = setTimeout(() => setIsUnfurling(false), 1200);
+    return () => clearTimeout(timer);
+  }, [selectedId]);
 
   const handleLaunch = (e: React.MouseEvent) => {
     e.stopPropagation();
@@ -99,7 +114,7 @@ export const LiveDemos: React.FC<{ onNext: () => void }> = ({ onNext }) => {
         <div className="max-w-md border-l-2 lg:border-l-4 border-[#CCFF00] pl-6 lg:pl-10">
           <p className="text-white/60 text-[10px] lg:text-[11px] font-sans tracking-[0.2em] uppercase font-black leading-relaxed">
             I BUILD CUSTOM ECOSYSTEMS THAT SCALE. EACH PROJECT BELOW REPRESENTS A DEPLOYED ASSET RUNNING IN THE WILD. 
-            <span className="text-[#CCFF00] ml-2 block mt-2">[ STATUS: ASSETS_LINKED ]</span>
+            <span className="text-[#CCFF00] ml-2 block mt-2">[ STATUS: ASSETS_UNFURLING ]</span>
           </p>
         </div>
       </div>
@@ -109,7 +124,7 @@ export const LiveDemos: React.FC<{ onNext: () => void }> = ({ onNext }) => {
         <div className="lg:col-span-8 flex flex-col h-full border-b lg:border-b-0 lg:border-r border-white/10 overflow-hidden bg-[#020202]">
           <div className="flex-1 min-h-[350px] relative overflow-hidden group bg-black">
             {/* Neural Scanlines overlay */}
-            <div className="absolute inset-0 z-20 pointer-events-none opacity-20 bg-[linear-gradient(rgba(18,16,16,0)_50%,rgba(0,0,0,0.25)_50%),linear-gradient(90deg,rgba(255,0,0,0.06),rgba(0,255,0,0.02),rgba(0,0,255,0.06))] bg-[length:100%_2px,3px_100%]" />
+            <div className="absolute inset-0 z-20 pointer-events-none opacity-20 bg-[linear-gradient(rgba(18,16,16,0)_50%,rgba(0,0,0,0.25)_50%),linear-gradient(90deg,rgba(255,0,0,0.02),rgba(0,255,0,0.01),rgba(0,0,255,0.02))] bg-[length:100%_2px,3px_100%]" />
             
             <AnimatePresence mode="wait">
               <motion.div 
@@ -119,33 +134,61 @@ export const LiveDemos: React.FC<{ onNext: () => void }> = ({ onNext }) => {
                 exit={{ opacity: 0 }}
                 className="w-full h-full relative"
               >
-                <img 
-                  src={selectedDemo.image} 
-                  className="w-full h-full object-cover transition-all duration-700 ease-out grayscale-[30%] group-hover:grayscale-0" 
-                  alt={selectedDemo.title}
-                />
+                {isUnfurling ? (
+                  <div className="absolute inset-0 flex items-center justify-center bg-[#050505] z-30">
+                     <div className="flex flex-col items-center gap-4">
+                        <Cpu size={32} className="text-[#CCFF00] animate-spin" />
+                        <span className="text-[10px] font-mono font-black text-[#CCFF00] tracking-widest uppercase">link_unfurling: {selectedDemo.title}</span>
+                     </div>
+                  </div>
+                ) : null}
+
+                {imageErrors[selectedDemo.id] ? (
+                  <div className="absolute inset-0 flex flex-col items-center justify-center bg-black gap-4 p-12 text-center">
+                    <AlertCircle size={48} className="text-white/10" />
+                    <p className="text-white/40 font-mono text-[10px] uppercase tracking-widest">
+                      [ ASSET_OFFLINE ] <br /> HANDSHAKE_TIMEOUT_WITH_REMOTE_SERVER
+                    </p>
+                    <button 
+                      onClick={handleLaunch}
+                      className="mt-4 px-6 py-3 border border-white/20 text-white font-mono text-[9px] uppercase tracking-widest hover:bg-white hover:text-black transition-all"
+                    >
+                      ATTEMPT_MANUAL_BYPASS
+                    </button>
+                  </div>
+                ) : (
+                  <img 
+                    src={selectedDemo.image} 
+                    onError={() => setImageErrors(prev => ({ ...prev, [selectedDemo.id]: true }))}
+                    className="w-full h-full object-cover transition-all duration-1000 ease-out grayscale-[30%] group-hover:grayscale-0 scale-100 group-hover:scale-105" 
+                    alt={selectedDemo.title}
+                  />
+                )}
               </motion.div>
             </AnimatePresence>
             
             <div className="absolute inset-0 flex items-center justify-center p-6 z-40">
               <button 
                 onClick={handleLaunch} 
-                className="px-10 py-6 bg-white text-black font-heading font-black text-[10px] uppercase hover:bg-[#CCFF00] hover:scale-110 transition-all flex items-center gap-4 shadow-[0_20px_60px_rgba(0,0,0,0.5)] active:scale-95"
+                className="px-10 py-6 bg-white text-black font-heading font-black text-[10px] uppercase hover:bg-[#CCFF00] hover:scale-110 transition-all flex items-center gap-4 shadow-[0_20px_60px_rgba(0,0,0,0.5)] active:scale-95 group/btn"
               >
-                <Zap size={20} /> DEPLOY LIVE ENVIRONMENT
+                <Zap size={20} className="group-hover/btn:animate-pulse" /> DEPLOY LIVE ENVIRONMENT
               </button>
             </div>
             
             <div className="absolute bottom-10 left-10 flex gap-4 pointer-events-none z-30">
-              <div className="bg-[#CCFF00] text-black px-4 py-2 font-mono font-black text-[10px] uppercase tracking-widest">
-                {selectedDemo.category}
+              <div className="bg-[#CCFF00] text-black px-4 py-2 font-mono font-black text-[10px] uppercase tracking-widest flex items-center gap-2">
+                <Globe size={12} /> {selectedDemo.category}
               </div>
             </div>
           </div>
           
           <div className="bg-[#080808] p-8 lg:p-12 border-t border-white/10">
             <div className="flex justify-between items-start mb-6">
-              <span className="text-[10px] font-mono tracking-[0.4em] text-white/30 uppercase font-black">NEURAL_PROJECT_MANIFEST:</span>
+              <div className="flex items-center gap-2">
+                <span className="text-[10px] font-mono tracking-[0.4em] text-white/30 uppercase font-black">NEURAL_PROJECT_MANIFEST:</span>
+                <Link2 size={12} className="text-white/10" />
+              </div>
               <button onClick={() => setShowCaseStudy(true)} className="text-[10px] font-mono tracking-widest text-[#CCFF00] uppercase font-bold hover:underline">[DEEP_INTEL]</button>
             </div>
             <h3 className="text-3xl sm:text-5xl lg:text-6xl font-heading font-black text-white uppercase mb-6 tracking-tighter leading-none">{selectedDemo.title}</h3>
