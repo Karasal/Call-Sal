@@ -105,13 +105,14 @@ const HeroChat = () => {
     <motion.div
       ref={chatRef}
       layout
+      onClick={() => { if(!isExpanded) setIsExpanded(true); }}
       className={`glass-2 w-full transition-all duration-500 flex flex-col border-[#CCFF00]/30 overflow-hidden shadow-[40px_40px_0_rgba(204,255,0,0.02)] ${
-        isExpanded ? 'h-[500px] lg:h-[600px]' : 'h-auto lg:h-[600px]'
+        isExpanded ? 'h-[500px] lg:h-[600px]' : 'h-[260px] lg:h-[600px]'
       }`}
     >
       <div 
         className="p-4 border-b border-[#CCFF00]/20 bg-[#CCFF00] text-black flex items-center gap-4 justify-between relative z-20 cursor-pointer"
-        onClick={() => setIsExpanded(!isExpanded)}
+        onClick={(e) => { e.stopPropagation(); setIsExpanded(!isExpanded); }}
       >
         <div className="flex items-center gap-4">
           <Terminal size={18} />
@@ -125,7 +126,7 @@ const HeroChat = () => {
         </div>
       </div>
 
-      <div className={`flex-1 flex flex-col overflow-hidden ${isExpanded ? 'flex' : 'hidden lg:flex'}`}>
+      <div className="flex-1 flex flex-col overflow-hidden">
         <div ref={scrollRef} className="flex-1 overflow-y-auto p-6 space-y-6 font-mono text-xs bg-black/80">
           <AnimatePresence initial={false}>
             {messages.map((m, i) => (
@@ -152,12 +153,13 @@ const HeroChat = () => {
           <div className="relative">
             <input
               value={input}
+              onFocus={() => setIsExpanded(true)}
               onChange={(e) => setInput(e.target.value)}
               onKeyDown={(e) => e.key === 'Enter' && handleAudit()}
               placeholder="System prompt..."
               className="w-full bg-transparent border-b border-[#CCFF00]/50 py-3 pr-10 focus:outline-none focus:border-[#CCFF00] text-sm font-mono text-[#CCFF00] placeholder:text-[#CCFF00]/20"
             />
-            <button onClick={handleAudit} className="absolute right-0 top-1/2 -translate-y-1/2 text-[#CCFF00]">
+            <button onClick={(e) => { e.stopPropagation(); handleAudit(); }} className="absolute right-0 top-1/2 -translate-y-1/2 text-[#CCFF00]">
               <ChevronRight size={20} />
             </button>
           </div>
@@ -171,8 +173,8 @@ export const Hero: React.FC<{ onStart: () => void, onConsultation: () => void }>
   const portfolioRef = useRef<HTMLDivElement>(null);
   
   return (
-    <div className="space-y-32 relative">
-      <div className="min-h-[85vh] flex flex-col lg:flex-row items-center justify-center gap-16 lg:gap-32 relative pt-8 pb-20">
+    <div className="space-y-12 sm:space-y-32 relative">
+      <div className="min-h-[85vh] flex flex-col lg:flex-row items-center justify-center gap-16 lg:gap-32 relative pt-8 pb-10 sm:pb-20">
         <div className="z-10 flex-1 max-w-4xl">
           <motion.div
             initial={{ opacity: 0, scale: 0.9 }}
@@ -181,7 +183,9 @@ export const Hero: React.FC<{ onStart: () => void, onConsultation: () => void }>
           >
             <div className="mb-8 flex items-center gap-4">
                <div className="w-16 h-[2px] bg-[#CCFF00]" />
-               <span className="text-[12px] font-mono tracking-[0.5em] text-[#CCFF00] uppercase font-bold">AI-POWERED FREELANCER BASED IN CANADA</span>
+               <span className="text-[12px] font-mono tracking-[0.5em] text-[#CCFF00] uppercase font-bold leading-tight">
+                 INDEPENDANT <br className="sm:hidden" /> AI OPERATOR
+               </span>
             </div>
             
             <h1 className="text-4xl sm:text-6xl md:text-7xl lg:text-8xl xl:text-[7.5rem] font-heading font-black mb-8 leading-[0.85] tracking-tighter uppercase stark-gradient">
