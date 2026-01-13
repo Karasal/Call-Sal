@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Maximize2, RefreshCw, ChevronRight, ExternalLink, X, Layout, AlertCircle, CheckCircle2, Link, Zap, Cpu } from 'lucide-react';
+import { Maximize2, ChevronRight, ExternalLink, X, Layout, CheckCircle2, Zap, Cpu } from 'lucide-react';
 
 interface DemoItem {
   id: number;
@@ -16,10 +16,7 @@ interface DemoItem {
 
 export const LiveDemos: React.FC<{ onNext: () => void }> = ({ onNext }) => {
   const [selectedId, setSelectedId] = useState(1);
-  const [isBtnHovered, setIsBtnHovered] = useState(false);
   const [showCaseStudy, setShowCaseStudy] = useState(false);
-  const [imageErrors, setImageErrors] = useState<Record<number, boolean>>({});
-  const [loadedImages, setLoadedImages] = useState<Record<number, boolean>>({});
 
   const demos: DemoItem[] = [
     { 
@@ -27,7 +24,7 @@ export const LiveDemos: React.FC<{ onNext: () => void }> = ({ onNext }) => {
       title: "INFOVISION", 
       category: "SMART DATA HELP", 
       description: "A tool that turns messy, complicated data into simple, beautiful charts and graphs that anyone can understand.", 
-      image: "./infographic.png",
+      image: "/infographic.png",
       externalUrl: "https://infovision.vercel.app/",
       roi: "40% Less Time Reading Reports",
       tech: ["Smart Mapping", "Real-time Charts"],
@@ -38,7 +35,7 @@ export const LiveDemos: React.FC<{ onNext: () => void }> = ({ onNext }) => {
       title: "CHROME BUILDER", 
       category: "ROBOT BUILDER", 
       description: "A specialized AI that can code and build fully working browser tools just by listening to your voice commands.", 
-      image: "./chrome.png",
+      image: "/chrome.png",
       externalUrl: "https://chrome-extension-builder-bot.vercel.app/",
       roi: "10x Faster Coding Speed",
       tech: ["AI Brain", "Auto-Code Scripts"],
@@ -49,7 +46,7 @@ export const LiveDemos: React.FC<{ onNext: () => void }> = ({ onNext }) => {
       title: "SALSPEND", 
       category: "MONEY TRACKER", 
       description: "A smart tool that watches your spending and automatically finds where you are wasting money on subscriptions.", 
-      image: "./salspend.png",
+      image: "/salspend.png",
       externalUrl: "https://salspend.vercel.app/",
       roi: "$2k/mo Waste Detected",
       tech: ["AI Receipt Scanner", "Auto-Sorting Logic"],
@@ -60,7 +57,7 @@ export const LiveDemos: React.FC<{ onNext: () => void }> = ({ onNext }) => {
       title: "VIRAL FACTORY", 
       category: "CONTENT MAKER", 
       description: "A massive engine that makes hundreds of videos and stories for kids' channels every single hour.", 
-      image: "./story.png",
+      image: "/story.png",
       externalUrl: "https://story-book-debug.vercel.app/",
       roi: "100+ Videos Every Hour",
       tech: ["Image Gen AI", "Auto-Scripting"],
@@ -71,7 +68,7 @@ export const LiveDemos: React.FC<{ onNext: () => void }> = ({ onNext }) => {
       title: "HISTORIA", 
       category: "CREATIVE HELP", 
       description: "A tool for creators that makes history come alive with AI-generated visuals and talking points.", 
-      image: "./history.png",
+      image: "/history.png",
       externalUrl: "https://historia-agent-asset-generator.vercel.app/",
       roi: "Lower Editing Costs",
       tech: ["Storytelling AI", "Visual Maker"],
@@ -84,20 +81,6 @@ export const LiveDemos: React.FC<{ onNext: () => void }> = ({ onNext }) => {
   const handleLaunch = (e: React.MouseEvent) => {
     e.stopPropagation();
     if (selectedDemo.externalUrl) { window.open(selectedDemo.externalUrl, '_blank'); }
-  };
-
-  const handleImageError = (id: number) => {
-    const demo = demos.find(d => d.id === id);
-    console.error(`[NEURAL_ERROR] Failed to load: ${window.location.origin}${demo?.image.substring(1)}`);
-    setImageErrors(prev => ({ ...prev, [id]: true }));
-    setLoadedImages(prev => ({ ...prev, [id]: false }));
-  };
-
-  const handleImageLoad = (id: number) => {
-    const demo = demos.find(d => d.id === id);
-    console.log(`[NEURAL_LINK] Connected successfully: ${demo?.image}`);
-    setLoadedImages(prev => ({ ...prev, [id]: true }));
-    setImageErrors(prev => ({ ...prev, [id]: false }));
   };
 
   return (
@@ -125,72 +108,31 @@ export const LiveDemos: React.FC<{ onNext: () => void }> = ({ onNext }) => {
         {/* Main Display Area */}
         <div className="lg:col-span-8 flex flex-col h-full border-b lg:border-b-0 lg:border-r border-white/10 overflow-hidden bg-[#020202]">
           <div className="flex-1 min-h-[350px] relative overflow-hidden group bg-black">
-            {/* Neural Scanlines for display */}
+            {/* Neural Scanlines overlay */}
             <div className="absolute inset-0 z-20 pointer-events-none opacity-20 bg-[linear-gradient(rgba(18,16,16,0)_50%,rgba(0,0,0,0.25)_50%),linear-gradient(90deg,rgba(255,0,0,0.06),rgba(0,255,0,0.02),rgba(0,0,255,0.06))] bg-[length:100%_2px,3px_100%]" />
             
             <AnimatePresence mode="wait">
-              {imageErrors[selectedDemo.id] ? (
-                <motion.div 
-                  key={`fallback-${selectedDemo.id}`}
-                  initial={{ opacity: 0 }} animate={{ opacity: 1 }}
-                  className="w-full h-full flex flex-col items-center justify-center p-20 text-center"
-                  style={{ background: `radial-gradient(circle at center, ${selectedDemo.color}20 0%, transparent 70%)` }}
-                >
-                  <div className="p-10 border-2 border-dashed border-white/10 flex flex-col items-center glass-2">
-                    <AlertCircle size={48} className="text-white/20 mb-6" />
-                    <h4 className="text-2xl font-heading font-black text-white/40 uppercase tracking-tighter mb-4">{selectedDemo.title} PREVIEW</h4>
-                    <p className="text-[9px] font-mono text-white/20 uppercase max-w-xs">NEURAL LINK BROKEN. ASSET "{selectedDemo.image.split('/').pop()}" NOT DETECTED AT ROOT.</p>
-                  </div>
-                </motion.div>
-              ) : (
-                <div className="relative w-full h-full">
-                  {!loadedImages[selectedDemo.id] && (
-                    <div className="absolute inset-0 flex items-center justify-center bg-black z-30">
-                       <div className="flex flex-col items-center gap-4">
-                          <Cpu size={32} className="text-[#CCFF00] animate-pulse" />
-                          <span className="text-[10px] font-mono font-black text-[#CCFF00] tracking-widest uppercase">initiating_handshake: {selectedDemo.image}</span>
-                       </div>
-                    </div>
-                  )}
-                  <motion.img 
-                    key={selectedDemo.id} 
-                    src={selectedDemo.image} 
-                    onLoad={() => handleImageLoad(selectedDemo.id)}
-                    onError={() => handleImageError(selectedDemo.id)}
-                    initial={{ opacity: 0, scale: 1.05 }} 
-                    animate={{ 
-                      opacity: loadedImages[selectedDemo.id] ? (isBtnHovered ? 1 : 0.7) : 0, 
-                      scale: 1,
-                      filter: isBtnHovered ? "grayscale(0%) brightness(100%)" : "grayscale(50%) brightness(70%)" 
-                    }} 
-                    className="w-full h-full object-cover transition-all duration-700 ease-out" 
-                  />
-                </div>
-              )}
+              <motion.div 
+                key={selectedDemo.id}
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                className="w-full h-full relative"
+              >
+                <img 
+                  src={selectedDemo.image} 
+                  className="w-full h-full object-cover transition-all duration-700 ease-out grayscale-[30%] group-hover:grayscale-0" 
+                  alt={selectedDemo.title}
+                />
+              </motion.div>
             </AnimatePresence>
             
-            {/* Status Indicator Overlays */}
-            <div className="absolute top-8 left-8 flex flex-col gap-2 z-30">
-              <div className="flex items-center gap-3 bg-black/80 backdrop-blur-md px-4 py-2 border border-white/10">
-                 <div className={`w-2 h-2 rounded-full ${loadedImages[selectedDemo.id] ? 'bg-[#CCFF00] shadow-[0_0_10px_#CCFF00]' : 'bg-red-500 animate-pulse'}`} />
-                 <span className="text-[10px] font-mono font-black text-white/90 uppercase tracking-widest">
-                   {loadedImages[selectedDemo.id] ? 'LINK_STABLE' : 'LINK_OFFLINE'}
-                 </span>
-              </div>
-              <div className="flex items-center gap-3 bg-white/5 backdrop-blur-md px-4 py-2 border border-white/10">
-                 <Link size={12} className="text-white/40" />
-                 <span className="text-[9px] font-mono font-black text-white/40 uppercase tracking-widest">ENCRYPTED_ASSET_STREAM</span>
-              </div>
-            </div>
-
             <div className="absolute inset-0 flex items-center justify-center p-6 z-40">
               <button 
                 onClick={handleLaunch} 
-                onMouseEnter={() => setIsBtnHovered(true)} 
-                onMouseLeave={() => setIsBtnHovered(false)} 
                 className="px-10 py-6 bg-white text-black font-heading font-black text-[10px] uppercase hover:bg-[#CCFF00] hover:scale-110 transition-all flex items-center gap-4 shadow-[0_20px_60px_rgba(0,0,0,0.5)] active:scale-95"
               >
-                <Zap size={20} className={isBtnHovered ? "animate-pulse" : ""} /> DEPLOY LIVE ENVIRONMENT
+                <Zap size={20} /> DEPLOY LIVE ENVIRONMENT
               </button>
             </div>
             
@@ -237,16 +179,11 @@ export const LiveDemos: React.FC<{ onNext: () => void }> = ({ onNext }) => {
                 className={`w-full group flex items-center gap-6 p-5 border transition-all text-left relative overflow-hidden ${selectedId === demo.id ? 'bg-white border-white text-black shadow-[0_0_30px_rgba(204,255,0,0.1)]' : 'bg-transparent border-white/5 hover:border-white/20 text-white'}`}
               >
                 <div className="w-16 h-12 overflow-hidden shrink-0 border border-white/10 relative bg-black flex items-center justify-center">
-                  {imageErrors[demo.id] ? (
-                     <AlertCircle size={16} className="text-white/10" />
-                  ) : (
-                    <img 
-                      src={demo.image} 
-                      onError={() => handleImageError(demo.id)}
-                      className={`w-full h-full object-cover ${selectedId === demo.id ? 'opacity-100' : 'grayscale opacity-30 group-hover:opacity-50 transition-all'}`} 
-                      alt="" 
-                    />
-                  )}
+                  <img 
+                    src={demo.image} 
+                    className={`w-full h-full object-cover ${selectedId === demo.id ? 'opacity-100' : 'grayscale opacity-30 group-hover:opacity-50 transition-all'}`} 
+                    alt={demo.title} 
+                  />
                   {selectedId === demo.id && <div className="absolute inset-0 border-2 border-black/10" />}
                 </div>
                 <div className="flex-1 min-w-0">
