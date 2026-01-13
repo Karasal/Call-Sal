@@ -19,11 +19,43 @@ export const LiveDemos: React.FC<{ onNext: () => void }> = ({ onNext }) => {
   const demos: DemoItem[] = [
     { 
       id: 1, 
-      title: "SALSPEND - AI Expense Tracker", 
+      title: "INFOVISION", 
+      category: "AI DATA ANALYSIS", 
+      description: "Revolutionary data visualization and intelligence platform that transforms complex raw information into clear, actionable visual narratives.", 
+      image: "/infographic.png",
+      externalUrl: "https://infovision.vercel.app/"
+    },
+    { 
+      id: 2, 
+      title: "CHROME EXTENSION BUILDER BOT", 
+      category: "AGENTIC WORKFLOW", 
+      description: "A specialized AI agent designed to architect, code, and deploy fully functional Chrome extensions from simple natural language prompts.", 
+      image: "/chrome.png",
+      externalUrl: "https://chrome-extension-builder-bot.vercel.app/"
+    },
+    { 
+      id: 3, 
+      title: "SALSPEND", 
       category: "FINANCIAL AI", 
-      description: "A cutting-edge AI-powered expense tracking and analysis tool. Automatically categorizes transactions, detects spending patterns, and provides actionable financial insights using advanced machine learning models.", 
+      description: "Cutting-edge AI-powered expense tracking and analysis tool. Automatically categorizes transactions and provides actionable financial insights.", 
       image: "/salspend.png",
-      externalUrl: "https://salspend-o2q7ljcgz-karasals-projects.vercel.app/"
+      externalUrl: "https://salspend.vercel.app/"
+    },
+    { 
+      id: 4, 
+      title: "VIRAL FACTORY - KIDS CARTOON ASSET GENERATOR", 
+      category: "CONTENT ENGINE", 
+      description: "Mass-scale asset generation for children's entertainment. Creates characters, backgrounds, and plot points to fuel viral content channels.", 
+      image: "/story.png",
+      externalUrl: "https://story-book-debug.vercel.app/"
+    },
+    { 
+      id: 5, 
+      title: "HISTORIA - DOCUMENTARY ASSET GENERATOR", 
+      category: "CREATIVE AI", 
+      description: "Specialized tool for historical content creators. Generates documentary-grade visuals and script frameworks for educational storytelling.", 
+      image: "/history.png",
+      externalUrl: "https://historia-agent-asset-generator.vercel.app/"
     }
   ];
 
@@ -47,16 +79,16 @@ export const LiveDemos: React.FC<{ onNext: () => void }> = ({ onNext }) => {
         </div>
         <div className="max-w-md border-l-4 border-white pl-10">
           <p className="text-white/60 text-[11px] font-sans tracking-[0.25em] uppercase font-black leading-relaxed">
-            PROVEN SYSTEMS BUILT FOR CALGARY'S TOP NICHES. EXPLORE OUR FEATURED WEB APPLICATION DIRECTLY IN YOUR BROWSER.
+            PROVEN SYSTEMS BUILT FOR CALGARY'S TOP NICHES. EXPLORE OUR FEATURED WEB APPLICATIONS DIRECTLY IN YOUR BROWSER.
           </p>
         </div>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-1 bg-white/5 border border-white/10 brutalist-panel overflow-hidden h-[800px]">
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-1 bg-white/5 border border-white/10 brutalist-panel overflow-hidden h-auto lg:h-[800px]">
         {/* Left Side: Detail & Preview (Master) */}
         <div className="lg:col-span-7 flex flex-col h-full border-r border-white/10 overflow-hidden">
           {/* Top Half: Thumbnail */}
-          <div className="flex-1 relative overflow-hidden group">
+          <div className="flex-1 min-h-[300px] lg:min-h-0 relative overflow-hidden group">
             <AnimatePresence mode="wait">
               <motion.img 
                 key={selectedDemo.id}
@@ -97,9 +129,9 @@ export const LiveDemos: React.FC<{ onNext: () => void }> = ({ onNext }) => {
           </div>
 
           {/* Bottom Half: Description */}
-          <div className="h-[300px] bg-black p-10 flex flex-col justify-center border-t border-white/10">
+          <div className="h-auto lg:h-[300px] bg-black p-10 flex flex-col justify-center border-t border-white/10">
             <span className="text-[10px] font-sans tracking-[0.6em] text-white/30 uppercase font-black mb-6">SELECTED PROJECT SPECIFICATIONS:</span>
-            <h3 className="text-4xl font-heading font-black text-white uppercase tracking-tighter mb-6">
+            <h3 className="text-3xl lg:text-4xl font-heading font-black text-white uppercase tracking-tighter mb-6">
               {selectedDemo.title}
             </h3>
             <p className="text-sm font-heading font-medium uppercase text-white/50 leading-relaxed max-w-2xl tracking-tight">
@@ -120,15 +152,18 @@ export const LiveDemos: React.FC<{ onNext: () => void }> = ({ onNext }) => {
         <div className="lg:col-span-5 flex flex-col h-full bg-black/40 overflow-hidden">
           <div className="p-8 border-b border-white/10 flex items-center justify-between">
             <span className="text-[10px] font-sans tracking-[0.4em] text-white/40 uppercase font-black">ARCHIVE DIRECTORY</span>
-            <span className="text-[10px] font-sans tracking-widest text-white/20 uppercase font-black">{demos.length} ITEM TOTAL</span>
+            <span className="text-[10px] font-sans tracking-widest text-white/20 uppercase font-black">{demos.length} ITEMS TOTAL</span>
           </div>
           <div className="flex-1 overflow-y-auto custom-scrollbar p-6 space-y-4">
             {demos.map((demo) => (
               <button
                 key={demo.id}
-                onClick={handleLaunch}
-                onMouseEnter={() => setIsBtnHovered(true)}
+                onMouseEnter={() => {
+                  setSelectedId(demo.id);
+                  setIsBtnHovered(true);
+                }}
                 onMouseLeave={() => setIsBtnHovered(false)}
+                onClick={handleLaunch}
                 className={`w-full group flex items-center gap-6 p-6 border transition-all text-left relative overflow-hidden ${
                   selectedId === demo.id 
                   ? 'bg-white border-white text-black' 
@@ -144,7 +179,7 @@ export const LiveDemos: React.FC<{ onNext: () => void }> = ({ onNext }) => {
                 </div>
                 <div className="flex-1 min-w-0">
                   <div className="flex items-center justify-between mb-1">
-                    <h4 className={`text-[12px] font-heading font-black uppercase truncate tracking-tight ${selectedId === demo.id ? 'text-black' : 'text-white'}`}>
+                    <h4 className={`text-[11px] font-heading font-black uppercase truncate tracking-tight ${selectedId === demo.id ? 'text-black' : 'text-white'}`}>
                       {demo.title}
                     </h4>
                     <span className={`text-[8px] font-sans tracking-widest uppercase font-black opacity-40`}>0{demo.id}</span>
@@ -170,7 +205,7 @@ export const LiveDemos: React.FC<{ onNext: () => void }> = ({ onNext }) => {
         viewport={{ once: true }}
         className="mt-32 brutalist-panel p-20 text-center bg-white/[0.03] border-white/20"
       >
-        <h3 className="text-4xl sm:text-5xl font-heading font-black text-white uppercase tracking-tighter mb-12 stark-gradient text-white">NEED A CUSTOM BUILD?</h3>
+        <h3 className="text-4xl sm:text-5xl font-heading font-black text-white uppercase tracking-tighter mb-12 stark-gradient">NEED A CUSTOM BUILD?</h3>
         <p className="text-white/40 text-xs font-sans tracking-[0.4em] uppercase font-black mb-16">WE ARCHITECT HIGH-PERFORMANCE SOLUTIONS TAILORED TO YOUR UNIQUE HEADACHES.</p>
         <button 
           onClick={onNext}
