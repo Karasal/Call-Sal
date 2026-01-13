@@ -1,0 +1,12 @@
+SAL'S PUBLIC ASSETS GUIDE
+-------------------------
+
+To make the "Live Demos" section work perfectly, please upload the following files into this 'public' folder:
+
+1. infographic.png (for INFOVISION)
+2. chrome.png      (for CHROME EXTENSION BUILDER BOT)
+3. salspend.png    (for SALSPEND)
+4. story.png       (for VIRAL FACTORY)
+5. history.png     (for HISTORIA)
+
+Once these files are in this folder, the website will automatically pick them up and display them in the showroom.
