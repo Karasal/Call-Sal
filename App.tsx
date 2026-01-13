@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { Hero } from './components/Hero';
 import { ServiceGrid } from './components/ServiceGrid';
@@ -41,14 +40,14 @@ const Sidebar = ({ activeTab, setActiveTab, onAuth, currentUser, setCurrentUser 
   ];
 
   return (
-    <aside className="fixed bottom-0 left-0 w-full h-16 lg:relative lg:w-72 lg:h-full bg-black border-t lg:border-t-0 lg:border-r border-white/10 flex flex-row lg:flex-col items-center lg:items-stretch py-0 lg:py-10 z-[100] shrink-0 overflow-y-hidden lg:overflow-y-auto custom-scrollbar">
+    <aside className="fixed bottom-0 left-0 w-full h-16 lg:relative lg:w-64 xl:w-72 lg:h-full bg-black border-t lg:border-t-0 lg:border-r border-white/10 flex flex-row lg:flex-col items-center lg:items-stretch py-0 lg:py-10 z-[100] shrink-0 overflow-y-hidden lg:overflow-y-auto custom-scrollbar">
       {/* Desktop Logo Area */}
-      <div className="hidden lg:flex flex-col items-center lg:items-start gap-4 px-8 mb-20">
-        <div className="bg-white px-4 py-1.5 flex items-center justify-center text-black font-heading font-black text-3xl tracking-tighter uppercase">
+      <div className="hidden lg:flex flex-col items-center lg:items-start gap-4 px-6 xl:px-8 mb-16 xl:mb-20">
+        <div className="bg-white px-3 xl:px-4 py-1.5 flex items-center justify-center text-black font-heading font-black text-2xl xl:text-3xl tracking-tighter uppercase">
           CALL SAL.
         </div>
         <div>
-          <p className="text-[10px] font-sans tracking-[0.2em] text-white uppercase font-black leading-tight">// AI SOLUTIONS EXPERT</p>
+          <p className="text-[9px] xl:text-[10px] font-sans tracking-[0.2em] text-white uppercase font-black leading-tight">// AI SOLUTIONS EXPERT</p>
         </div>
       </div>
 
@@ -58,12 +57,12 @@ const Sidebar = ({ activeTab, setActiveTab, onAuth, currentUser, setCurrentUser 
             key={tab.id}
             onClick={() => setActiveTab(tab.id)}
             aria-label={tab.label}
-            className={`flex-1 lg:flex-none flex items-center justify-center lg:justify-start gap-6 px-4 lg:px-8 py-4 lg:py-5 group relative transition-all duration-300 text-left ${
+            className={`flex-1 lg:flex-none flex items-center justify-center lg:justify-start gap-4 xl:gap-6 px-4 xl:px-8 py-4 lg:py-4 xl:py-5 group relative transition-all duration-300 text-left ${
               activeTab === tab.id ? 'text-white' : 'text-white/80 hover:text-white'
             }`}
           >
             <span className="shrink-0">{tab.icon}</span>
-            <span className="hidden lg:block font-heading text-[11px] tracking-[0.2em] font-bold uppercase leading-none">{tab.label}</span>
+            <span className="hidden lg:block font-heading text-[10px] xl:text-[11px] tracking-[0.2em] font-bold uppercase leading-none">{tab.label}</span>
             {activeTab === tab.id && (
               <motion.div layoutId="activeTabIndicator" className="absolute left-0 bottom-0 lg:bottom-auto lg:w-1 lg:h-full h-1 w-full lg:bg-white bg-white" aria-hidden="true" />
             )}
@@ -71,16 +70,16 @@ const Sidebar = ({ activeTab, setActiveTab, onAuth, currentUser, setCurrentUser 
         ))}
       </nav>
 
-      <div className="hidden lg:block px-8 mb-10 space-y-4">
+      <div className="hidden lg:block px-6 xl:px-8 mb-8 xl:mb-10 space-y-4">
         {!currentUser ? (
           <div className="flex flex-col gap-2">
-            <button onClick={onAuth} aria-label="Login" className="w-full flex items-center gap-4 py-3 text-white/80 hover:text-white transition-all border border-white/5 hover:border-white/20 px-4 group">
+            <button onClick={onAuth} aria-label="Login" className="w-full flex items-center gap-3 xl:gap-4 py-3 text-white/80 hover:text-white transition-all border border-white/5 hover:border-white/20 px-4 group">
               <LogIn size={16} className="group-hover:scale-110 transition-transform" />
-              <span className="text-[9px] font-heading font-black tracking-widest uppercase">LOGIN</span>
+              <span className="text-[8px] xl:text-[9px] font-heading font-black tracking-widest uppercase">LOGIN</span>
             </button>
-            <button onClick={onAuth} aria-label="Register" className="w-full flex items-center gap-4 py-4 bg-white text-black transition-all border border-white px-4 group shadow-[8px_8px_0_rgba(255,255,255,0.1)] active:scale-95 hover:translate-x-1">
+            <button onClick={onAuth} aria-label="Register" className="w-full flex items-center gap-3 xl:gap-4 py-4 bg-white text-black transition-all border border-white px-4 group shadow-[8px_8px_0_rgba(255,255,255,0.1)] active:scale-95 hover:translate-x-1">
               <UserPlus size={16} className="text-black" />
-              <span className="text-[10px] font-heading font-black tracking-widest uppercase">REGISTER</span>
+              <span className="text-[9px] xl:text-[10px] font-heading font-black tracking-widest uppercase">REGISTER</span>
             </button>
           </div>
         ) : (
@@ -92,15 +91,15 @@ const Sidebar = ({ activeTab, setActiveTab, onAuth, currentUser, setCurrentUser 
                   <span className="text-[8px] font-sans font-black text-white/80 uppercase">View Dashboard</span>
                 </div>
              </div>
-             <button onClick={handleLogout} aria-label="Logout" className="w-full flex items-center gap-4 py-3 text-red-500 hover:text-red-400 transition-all border border-red-500/20 hover:border-red-500/40 px-4 group">
+             <button onClick={handleLogout} aria-label="Logout" className="w-full flex items-center gap-3 xl:gap-4 py-3 text-red-500 hover:text-red-400 transition-all border border-red-500/20 hover:border-red-500/40 px-4 group">
               <LogOut size={16} />
-              <span className="text-[9px] font-heading font-black tracking-widest uppercase">LOGOUT</span>
+              <span className="text-[8px] xl:text-[9px] font-heading font-black tracking-widest uppercase">LOGOUT</span>
              </button>
           </div>
         )}
       </div>
 
-      <div className="hidden lg:block px-8 pt-10 border-t border-white/5 space-y-2" onMouseEnter={() => setIsYearHovered(true)} onMouseLeave={() => setIsYearHovered(false)}>
+      <div className="hidden lg:block px-6 xl:px-8 pt-8 xl:pt-10 border-t border-white/5 space-y-2" onMouseEnter={() => setIsYearHovered(true)} onMouseLeave={() => setIsYearHovered(false)}>
         <p className="text-[8px] font-sans tracking-[0.3em] text-white/80 uppercase font-black flex items-center gap-1">
           <span>EST.</span>
           <span className="relative inline-flex overflow-hidden">
@@ -134,38 +133,37 @@ const HeaderHUD = ({ onAuth, currentUser }: { onAuth: () => void, currentUser: I
 
   return (
     <>
-      <header className="h-16 px-6 lg:px-10 flex items-center justify-between z-40 border-b border-white/5 bg-black/50 backdrop-blur-md sticky top-0">
+      <header className="h-16 px-4 sm:px-6 lg:px-8 xl:px-10 flex items-center justify-between z-40 border-b border-white/5 bg-black/50 backdrop-blur-md sticky top-0">
         {/* Left: Logo (Visible on mobile and tablet) */}
         <div className="flex items-center">
-          <div className="bg-white px-3 py-1 text-black font-heading font-black text-xl tracking-tighter mr-4 lg:hidden uppercase">
+          <div className="bg-white px-3 py-1 text-black font-heading font-black text-lg sm:text-xl tracking-tighter mr-4 lg:hidden uppercase">
             CALL SAL.
           </div>
-          <div className="hidden lg:flex items-center gap-8">
-            <span className="text-[10px] font-sans tracking-[0.2em] text-white uppercase font-bold">
+          <div className="hidden lg:flex items-center gap-6 xl:gap-8">
+            <span className="text-[9px] xl:text-[10px] font-sans tracking-[0.1em] xl:tracking-[0.2em] text-white uppercase font-bold whitespace-nowrap">
               CALL: 905-749-0266 | E-MAIL: INFO@CALLSAL.APP | CALGARY, AB
             </span>
           </div>
         </div>
 
-        {/* Center: Tagline Removed as requested */}
-        <div className="flex-1 text-center">
-        </div>
+        {/* Center: HUD Info removed per previous prompt */}
+        <div className="flex-1"></div>
 
         {/* Right: Hamburger (Mobile/Tablet) or Time/Call (Desktop) */}
-        <div className="flex items-center gap-6 lg:gap-10">
+        <div className="flex items-center gap-4 lg:gap-8 xl:gap-10">
           <div className="hidden lg:flex items-center gap-2">
-            <span className="text-[10px] font-sans font-bold text-white uppercase tracking-widest">{mstTime}</span>
-            <span className="text-[10px] font-sans tracking-widest text-white uppercase font-bold">MST</span>
+            <span className="text-[9px] xl:text-[10px] font-sans font-bold text-white uppercase tracking-widest">{mstTime}</span>
+            <span className="text-[9px] xl:text-[10px] font-sans tracking-widest text-white uppercase font-bold">MST</span>
           </div>
           <button 
             onClick={() => setIsMenuOpen(!isMenuOpen)} 
             aria-label={isMenuOpen ? "Close menu" : "Open menu"}
-            className="lg:hidden text-white hover:text-white/70 transition-colors"
+            className="lg:hidden text-white hover:text-white/70 transition-colors p-2"
           >
-            {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
+            {isMenuOpen ? <X size={20} /> : <Menu size={20} />}
           </button>
-          <a href="tel:905-749-0266" className="hidden lg:flex items-center gap-3 px-8 py-2.5 bg-white text-black font-heading font-black text-[10px] tracking-[0.2em] transition-all hover:bg-white/90 active:scale-95 shadow-[8px_8px_0_rgba(255,255,255,0.1)]">
-            <Phone size={12} /> CALL SAL
+          <a href="tel:905-749-0266" className="hidden lg:flex items-center gap-2 xl:gap-3 px-6 xl:px-8 py-2 xl:py-2.5 bg-white text-black font-heading font-black text-[9px] xl:text-[10px] tracking-[0.15em] xl:tracking-[0.2em] transition-all hover:bg-white/90 active:scale-95 shadow-[6px_6px_0_rgba(255,255,255,0.1)] uppercase">
+            <Phone size={10} /> CALL SAL
           </a>
         </div>
       </header>
@@ -180,49 +178,35 @@ const HeaderHUD = ({ onAuth, currentUser }: { onAuth: () => void, currentUser: I
             role="dialog"
             aria-modal="true"
             aria-label="Mobile Navigation"
-            className="lg:hidden fixed top-16 right-6 z-[60] w-[calc(100%-3rem)] max-w-sm brutalist-panel bg-black border-white p-8 shadow-[20px_20px_0_rgba(255,255,255,0.05)]"
+            className="lg:hidden fixed top-16 right-4 left-4 z-[60] brutalist-panel bg-black border-white p-6 sm:p-8 shadow-[15px_15px_0_rgba(255,255,255,0.05)]"
           >
-            <div className="space-y-6">
+            <div className="space-y-5">
               <div className="flex items-center gap-4 text-white">
                 <Phone size={16} />
                 <div className="flex flex-col">
-                  <span className="text-[8px] font-sans font-black tracking-widest uppercase text-white/70">CALL</span>
-                  <span className="text-[10px] font-heading font-bold uppercase">905-749-0266</span>
+                  <span className="text-[8px] font-sans font-black tracking-widest uppercase text-white/50 leading-none mb-1">CALL</span>
+                  <span className="text-[10px] font-heading font-bold uppercase leading-none">905-749-0266</span>
                 </div>
               </div>
               <div className="flex items-center gap-4 text-white">
                 <Mail size={16} />
                 <div className="flex flex-col">
-                  <span className="text-[8px] font-sans font-black tracking-widest uppercase text-white/70">EMAIL</span>
-                  <span className="text-[10px] font-heading font-bold uppercase">INFO@CALLSAL.APP</span>
-                </div>
-              </div>
-              <div className="flex items-center gap-4 text-white">
-                <MapPin size={16} />
-                <div className="flex flex-col">
-                  <span className="text-[8px] font-sans font-black tracking-widest uppercase text-white/70">BASED IN</span>
-                  <span className="text-[10px] font-heading font-bold uppercase">CALGARY, AB</span>
-                </div>
-              </div>
-              <div className="flex items-center gap-4 text-white">
-                <Clock size={16} />
-                <div className="flex flex-col">
-                  <span className="text-[8px] font-sans font-black tracking-widest uppercase text-white/70">LOCAL TIME</span>
-                  <span className="text-[10px] font-heading font-bold uppercase">{mstTime} MST</span>
+                  <span className="text-[8px] font-sans font-black tracking-widest uppercase text-white/50 leading-none mb-1">EMAIL</span>
+                  <span className="text-[10px] font-heading font-bold uppercase leading-none">INFO@CALLSAL.APP</span>
                 </div>
               </div>
               
               <div className="pt-4 border-t border-white/10 flex flex-col gap-3">
-                <a href="tel:905-749-0266" className="w-full flex items-center justify-center gap-4 py-4 bg-white text-black font-heading font-black text-[10px] tracking-widest uppercase">
-                  <Phone size={14} /> CALL SAL NOW
+                <a href="tel:905-749-0266" className="w-full flex items-center justify-center gap-3 py-4 bg-white text-black font-heading font-black text-[9px] tracking-widest uppercase">
+                  <Phone size={12} /> CALL SAL NOW
                 </a>
                 {!currentUser && (
                   <>
-                    <button onClick={() => { onAuth(); setIsMenuOpen(false); }} aria-label="Login" className="w-full flex items-center justify-center gap-4 py-4 border border-white/20 text-white font-heading font-black text-[10px] tracking-widest uppercase">
-                      <LogIn size={14} /> LOGIN
+                    <button onClick={() => { onAuth(); setIsMenuOpen(false); }} aria-label="Login" className="w-full flex items-center justify-center gap-3 py-4 border border-white/20 text-white font-heading font-black text-[9px] tracking-widest uppercase">
+                      <LogIn size={12} /> LOGIN
                     </button>
-                    <button onClick={() => { onAuth(); setIsMenuOpen(false); }} aria-label="Register" className="w-full flex items-center justify-center gap-4 py-4 bg-white text-black font-heading font-black text-[10px] tracking-widest uppercase">
-                      <UserPlus size={14} /> REGISTER
+                    <button onClick={() => { onAuth(); setIsMenuOpen(false); }} aria-label="Register" className="w-full flex items-center justify-center gap-3 py-4 bg-white text-black font-heading font-black text-[9px] tracking-widest uppercase">
+                      <UserPlus size={12} /> REGISTER
                     </button>
                   </>
                 )}
@@ -244,15 +228,20 @@ const App: React.FC = () => {
   const handleNavigation = (tabId: string) => {
     setActiveTab(tabId);
     setSelectedService(null);
-    const mainContent = document.querySelector('main');
+    const mainContent = document.getElementById('main-content');
     if (mainContent) mainContent.scrollTop = 0;
-    // On mobile, also scroll body to top
     window.scrollTo(0, 0);
   };
 
   const renderContent = () => {
     if (selectedService && (activeTab === 'automation' || activeTab === 'sales')) {
-      return <ServiceDetailView service={selectedService} onBack={() => setSelectedService(null)} />;
+      return (
+        <ServiceDetailView 
+          service={selectedService} 
+          onBack={() => setSelectedService(null)} 
+          onConsultation={() => handleNavigation('consultation')}
+        />
+      );
     }
     switch (activeTab) {
       case 'overview': return <Hero onStart={() => handleNavigation('about')} onConsultation={() => handleNavigation('consultation')} />;
@@ -276,11 +265,18 @@ const App: React.FC = () => {
         currentUser={currentUser}
         setCurrentUser={setCurrentUser}
       />
-      <div className="flex-1 flex flex-col relative pb-16 lg:pb-0">
+      <div className="flex-1 flex flex-col relative pb-16 lg:pb-0 min-w-0">
         <HeaderHUD onAuth={() => setIsAuthOpen(true)} currentUser={currentUser} />
-        <main id="main-content" className="flex-1 overflow-x-hidden relative p-4 md:p-6 lg:p-8 lg:overflow-y-auto custom-scrollbar scroll-smooth">
+        <main id="main-content" className="flex-1 overflow-x-hidden relative p-4 sm:p-6 lg:p-8 lg:overflow-y-auto custom-scrollbar scroll-smooth">
           <AnimatePresence mode="wait">
-            <motion.div key={activeTab + (selectedService?.id || '')} initial={{ opacity: 0, y: 30, scale: 0.98 }} animate={{ opacity: 1, y: 0, scale: 1 }} exit={{ opacity: 0, y: -30, scale: 0.98 }} transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }} className="min-h-full">
+            <motion.div 
+              key={activeTab + (selectedService?.id || '')} 
+              initial={{ opacity: 0, y: 20 }} 
+              animate={{ opacity: 1, y: 0 }} 
+              exit={{ opacity: 0, y: -20 }} 
+              transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }} 
+              className="min-h-full"
+            >
               {renderContent()}
             </motion.div>
           </AnimatePresence>

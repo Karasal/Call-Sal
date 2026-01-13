@@ -1,5 +1,10 @@
-
 import React from 'react';
+
+export interface ExampleItem {
+  title: string;
+  description: string;
+  icon: React.ReactNode;
+}
 
 export interface ServiceDetail {
   id: string;
@@ -8,7 +13,7 @@ export interface ServiceDetail {
   description: string;
   problem: string;
   solution: string;
-  examples: string[];
+  examples: ExampleItem[];
   icon: React.ReactNode;
 }
 

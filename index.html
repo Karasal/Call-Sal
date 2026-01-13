@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -47,12 +46,6 @@
         mix-blend-mode: overlay;
       }
 
-      .bento-grid {
-        display: grid;
-        grid-template-columns: repeat(12, 1fr);
-        gap: 1rem;
-      }
-
       .glass-2 {
         background: rgba(255, 255, 255, 0.02);
         backdrop-filter: blur(20px) saturate(180%);
@@ -60,8 +53,9 @@
         border-radius: 0px;
       }
 
-      .brutalist-border {
-        border: 2px solid white;
+      .brutalist-panel {
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        background: rgba(0, 0, 0, 0.2);
       }
 
       .stark-gradient {
@@ -74,10 +68,6 @@
         color: var(--accent);
       }
 
-      .toxic-bg {
-        background-color: var(--accent);
-      }
-
       /* Scanline Effect */
       .crt-overlay::after {
         content: " ";
@@ -87,17 +77,27 @@
         left: 0;
         bottom: 0;
         right: 0;
-        background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));
+        background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.15) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.03), rgba(0, 255, 0, 0.01), rgba(0, 0, 255, 0.03));
         z-index: 2;
-        background-size: 100% 2px, 3px 100%;
+        background-size: 100% 4px, 3px 100%;
         pointer-events: none;
       }
 
+      .custom-scrollbar::-webkit-scrollbar { width: 4px; }
+      .custom-scrollbar::-webkit-scrollbar-track { background: rgba(0,0,0,0.1); }
+      .custom-scrollbar::-webkit-scrollbar-thumb { background: var(--accent); border-radius: 10px; }
+      
       ::-webkit-scrollbar { width: 4px; }
       ::-webkit-scrollbar-track { background: #000; }
       ::-webkit-scrollbar-thumb { background: var(--accent); }
       
       .no-scrollbar::-webkit-scrollbar { display: none; }
+
+      @media (max-width: 1024px) {
+        .crt-overlay::after {
+          background-size: 100% 6px, 4px 100%;
+        }
+      }
     </style>
   <script type="importmap">
 {
@@ -114,7 +114,7 @@
 }
 </script>
 </head>
-  <body class="crt-overlay">
+  <body class="crt-overlay custom-scrollbar">
     <div id="root"></div>
     <script type="module" src="/index.tsx"></script>
   </body>
