@@ -10,15 +10,12 @@ export const CustomCursor: React.FC = () => {
   const cursorX = useMotionValue(-100);
   const cursorY = useMotionValue(-100);
 
-  const springConfig = { damping: 25, stiffness: 250 };
+  const springConfig = { damping: 30, stiffness: 400 };
   const cursorXSpring = useSpring(cursorX, springConfig);
   const cursorYSpring = useSpring(cursorY, springConfig);
 
   useEffect(() => {
-    // Detect touch device
-    const checkTouch = () => {
-      setIsTouchDevice(window.matchMedia('(hover: none)').matches);
-    };
+    const checkTouch = () => setIsTouchDevice(window.matchMedia('(hover: none)').matches);
     checkTouch();
 
     const handleMouseMove = (e: MouseEvent) => {
@@ -28,13 +25,7 @@ export const CustomCursor: React.FC = () => {
 
     const handleMouseOver = (e: MouseEvent) => {
       const target = e.target as HTMLElement;
-      if (
-        target.tagName === 'A' ||
-        target.tagName === 'BUTTON' ||
-        target.closest('button') ||
-        target.closest('a') ||
-        target.getAttribute('role') === 'button'
-      ) {
+      if (target.closest('button, a, [role="button"]')) {
         setIsHovering(true);
       } else {
         setIsHovering(false);
@@ -44,38 +35,16 @@ export const CustomCursor: React.FC = () => {
     const handleMouseDown = () => setIsMouseDown(true);
     const handleMouseUp = () => setIsMouseDown(false);
 
-    // Cross-Window Listener for Iframes (Demos)
-    const handleIframeMessage = (e: MessageEvent) => {
-      const { type, x, y, hovering } = e.data;
-      
-      if (type === 'sal-cursor-move') {
-        const iframe = document.querySelector('iframe');
-        if (iframe) {
-          const rect = iframe.getBoundingClientRect();
-          cursorX.set(rect.left + x);
-          cursorY.set(rect.top + y);
-        }
-      } else if (type === 'sal-cursor-down') {
-        setIsMouseDown(true);
-      } else if (type === 'sal-cursor-up') {
-        setIsMouseDown(false);
-      } else if (type === 'sal-cursor-hover') {
-        setIsHovering(hovering);
-      }
-    };
-
     window.addEventListener('mousemove', handleMouseMove);
     window.addEventListener('mouseover', handleMouseOver);
     window.addEventListener('mousedown', handleMouseDown);
     window.addEventListener('mouseup', handleMouseUp);
-    window.addEventListener('message', handleIframeMessage);
     
     return () => {
       window.removeEventListener('mousemove', handleMouseMove);
       window.removeEventListener('mouseover', handleMouseOver);
       window.removeEventListener('mousedown', handleMouseDown);
       window.removeEventListener('mouseup', handleMouseUp);
-      window.removeEventListener('message', handleIframeMessage);
     };
   }, [cursorX, cursorY]);
 
@@ -83,31 +52,37 @@ export const CustomCursor: React.FC = () => {
 
   return (
     <div aria-hidden="true">
-      {/* Outer Glow / Follower */}
+      {/* HUD Crosshair */}
       <motion.div
-        className="fixed top-0 left-0 w-12 h-12 pointer-events-none z-[9999] flex items-center justify-center mix-blend-difference"
+        className="fixed top-0 left-0 w-16 h-16 pointer-events-none z-[9999] flex items-center justify-center"
         style={{ x: cursorXSpring, y: cursorYSpring, translateX: '-50%', translateY: '-50%' }}
       >
         <motion.div 
           animate={{ 
-            scale: isHovering ? 2.5 : 1,
-            rotate: isHovering ? 45 : 0,
-            borderRadius: isHovering ? "0%" : "0%"
+            scale: isHovering ? 1.5 : 1,
+            rotate: isHovering ? 90 : 0,
+            opacity: 0.8
           }}
-          transition={{ type: "spring", damping: 20 }}
-          className="w-10 h-10 border border-white/30" 
+          className={`w-full h-full border-[1px] ${isHovering ? 'border-[#CCFF00]' : 'border-white/30'} relative`}
+        >
+          {/* Corner Ticks */}
+          <div className="absolute top-0 left-0 w-2 h-2 border-t-2 border-l-2 border-current" />
+          <div className="absolute top-0 right-0 w-2 h-2 border-t-2 border-r-2 border-current" />
+          <div className="absolute bottom-0 left-0 w-2 h-2 border-b-2 border-l-2 border-current" />
+          <div className="absolute bottom-0 right-0 w-2 h-2 border-b-2 border-r-2 border-current" />
+        </motion.div>
+        
+        {/* Center Dot */}
+        <motion.div 
+          animate={{ scale: isMouseDown ? 3 : 1, backgroundColor: isHovering ? '#CCFF00' : '#ffffff' }}
+          className="absolute w-1 h-1 rounded-full" 
         />
-        <div className="absolute w-[1px] h-full bg-white/10" />
-        <div className="absolute h-[1px] w-full bg-white/10" />
       </motion.div>
 
-      {/* Center Dot */}
+      {/* Trailing Pointer for tactical feel */}
       <motion.div
-        className="fixed top-0 left-0 w-2 h-2 pointer-events-none z-[10000] bg-white mix-blend-difference"
+        className="fixed top-0 left-0 w-1 h-1 bg-[#CCFF00] pointer-events-none z-[10000]"
         style={{ x: cursorX, y: cursorY, translateX: '-50%', translateY: '-50%' }}
-        animate={{ 
-          scale: isMouseDown ? 0.5 : 1,
-        }}
       />
     </div>
   );

@@ -8,7 +8,7 @@ export const Features: React.FC = () => {
     <div className="max-w-7xl mx-auto py-20">
       <div className="mb-32">
         <span className="text-[11px] font-sans tracking-[1em] text-white/50 uppercase font-black block mb-8 text-center">Track Record</span>
-        <h2 className="text-7xl md:text-[10rem] font-heading font-black text-white uppercase tracking-tighter text-center leading-[0.8] stark-gradient">
+        <h2 className="text-6xl sm:text-7xl md:text-[10rem] font-heading font-black text-white uppercase tracking-tighter text-center leading-[0.8] stark-gradient">
           RESULTS.
         </h2>
       </div>
@@ -81,8 +81,8 @@ export const Features: React.FC = () => {
                 alt="Business Intelligence" 
               />
               <div className="absolute inset-0 flex items-center justify-center flex-col text-center p-20">
-                 <div className="text-[10rem] font-heading font-black text-white mb-10 leading-none stark-gradient">10X</div>
-                 <p className="text-4xl font-heading font-black text-white mb-8 uppercase tracking-tighter">Scalability</p>
+                 <div className="text-[7rem] sm:text-[10rem] font-heading font-black text-white mb-10 leading-none stark-gradient">10X</div>
+                 <p className="text-3xl sm:text-4xl font-heading font-black text-white mb-8 uppercase tracking-tighter">Scalability</p>
                  <div className="w-20 h-1 bg-white mb-10" />
                  <p className="text-xs text-white/60 font-heading font-bold leading-tight uppercase tracking-widest">
                    OUR CLIENTS TYPICALLY SEE A 10X INCREASE IN OPERATIONAL CAPACITY WITHIN SIX MONTHS OF FULL INTEGRATION.

@@ -63,7 +63,7 @@ export const ServiceDetailView: React.FC<Props> = ({ service, onBack }) => {
           <div className="brutalist-panel p-10">
             <h3 className="text-xl font-heading font-black tracking-[0.3em] mb-10 uppercase text-white">Expected Outcomes</h3>
             <div className="space-y-6">
-              {service.examples.map((ex, i) => (
+              {(service.examples || []).map((ex, i) => (
                 <div key={i} className="flex gap-6 p-8 bg-white/5 border border-white/5 items-center">
                   <CheckCircle2 className="text-white flex-shrink-0" size={24} />
                   <p className="text-lg text-white font-heading font-bold uppercase tracking-tight leading-tight">{ex}</p>

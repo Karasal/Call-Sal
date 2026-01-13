@@ -22,7 +22,7 @@ export const LiveDemos: React.FC<{ onNext: () => void }> = ({ onNext }) => {
       title: "SALSPEND - AI Expense Tracker", 
       category: "FINANCIAL AI", 
       description: "A cutting-edge AI-powered expense tracking and analysis tool. Automatically categorizes transactions, detects spending patterns, and provides actionable financial insights using advanced machine learning models.", 
-      image: "salspend.png",
+      image: "/salspend.png",
       externalUrl: "https://salspend-o2q7ljcgz-karasals-projects.vercel.app/"
     }
   ];
@@ -40,7 +40,7 @@ export const LiveDemos: React.FC<{ onNext: () => void }> = ({ onNext }) => {
       <div className="mb-20 flex flex-col md:flex-row items-end justify-between gap-16">
         <div className="flex-1">
           <span className="text-[12px] font-sans tracking-[1em] text-white/50 uppercase font-black block mb-8 leading-none">Architecture Showroom</span>
-          <h2 className="text-8xl font-heading font-black text-white uppercase tracking-tighter stark-gradient leading-[0.85]">
+          <h2 className="text-6xl sm:text-8xl font-heading font-black text-white uppercase tracking-tighter stark-gradient leading-[0.85]">
             LIVE <br />
             DEMO.
           </h2>
@@ -170,7 +170,7 @@ export const LiveDemos: React.FC<{ onNext: () => void }> = ({ onNext }) => {
         viewport={{ once: true }}
         className="mt-32 brutalist-panel p-20 text-center bg-white/[0.03] border-white/20"
       >
-        <h3 className="text-5xl font-heading font-black text-white uppercase tracking-tighter mb-12 stark-gradient">NEED A CUSTOM BUILD?</h3>
+        <h3 className="text-4xl sm:text-5xl font-heading font-black text-white uppercase tracking-tighter mb-12 stark-gradient text-white">NEED A CUSTOM BUILD?</h3>
         <p className="text-white/40 text-xs font-sans tracking-[0.4em] uppercase font-black mb-16">WE ARCHITECT HIGH-PERFORMANCE SOLUTIONS TAILORED TO YOUR UNIQUE HEADACHES.</p>
         <button 
           onClick={onNext}

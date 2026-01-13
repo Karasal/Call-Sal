@@ -63,7 +63,7 @@ export const SalesGeneration: React.FC<{ onSelect: (s: ServiceDetail) => void, o
       <div className="mb-32 flex flex-col md:flex-row items-end justify-between gap-16">
         <div className="flex-1">
           <span className="text-[10px] md:text-[12px] font-sans tracking-[0.4em] md:tracking-[1em] text-white/50 uppercase font-black block mb-8 leading-none">Get More Customers</span>
-          <h2 className="text-6xl md:text-8xl font-heading font-black text-white uppercase tracking-tighter stark-gradient leading-[0.85]">
+          <h2 className="text-5xl sm:text-7xl md:text-8xl font-heading font-black text-white uppercase tracking-tighter stark-gradient leading-[0.85]">
             SALES <br />
             GENERATION.
           </h2>
@@ -94,7 +94,7 @@ export const SalesGeneration: React.FC<{ onSelect: (s: ServiceDetail) => void, o
         viewport={{ once: true }}
         className="brutalist-panel p-16 md:p-24 bg-white text-black border-white shadow-[50px_50px_0px_rgba(255,255,255,0.05)] text-center"
       >
-        <h3 className="text-6xl md:text-8xl font-heading font-black mb-10 uppercase tracking-tighter">WANT MORE SALES?</h3>
+        <h3 className="text-5xl sm:text-7xl md:text-8xl font-heading font-black mb-10 uppercase tracking-tighter text-black">WANT MORE SALES?</h3>
         <p className="text-black/60 text-base font-heading font-bold uppercase mb-16 tracking-widest max-w-2xl mx-auto">
           IF YOU'RE READY TO GROW YOUR BUSINESS WITHOUT WORKING 100 HOURS A WEEK, LET'S HAVE A QUICK CHAT.
         </p>

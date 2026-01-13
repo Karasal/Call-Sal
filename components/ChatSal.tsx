@@ -1,3 +1,4 @@
+
 import React, { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ArrowRight, MessageSquare, MonitorPlay } from 'lucide-react';
@@ -27,7 +28,7 @@ export const ChatSal: React.FC<ChatSalProps> = ({ onDemos }) => {
   const [input, setInput] = useState('');
   const [isTyping, setIsTyping] = useState(false);
 
-  const inputRef = useRef<HTMLInputElement>(null);
+  const inputRef = useRef<HTMLTextAreaElement>(null);
 
   const handleSend = async () => {
     if (!input.trim()) return;
@@ -45,7 +46,7 @@ export const ChatSal: React.FC<ChatSalProps> = ({ onDemos }) => {
     <div className="max-w-4xl mx-auto py-12 flex flex-col">
       <div className="flex flex-col items-center mb-16 text-center">
         <span className="text-[10px] font-sans tracking-[1em] text-white/50 uppercase font-black mb-6">No-Pressure Strategy Session</span>
-        <h2 className="text-6xl md:text-8xl font-heading font-black text-white uppercase tracking-tighter stark-gradient">
+        <h2 className="text-5xl sm:text-7xl md:text-8xl font-heading font-black text-white uppercase tracking-tighter stark-gradient">
           CHAT.
         </h2>
       </div>
@@ -95,20 +96,25 @@ export const ChatSal: React.FC<ChatSalProps> = ({ onDemos }) => {
           )}
         </div>
 
-        {/* Input - Scaled down for better usability */}
+        {/* Input - Textarea for multi-line support */}
         <div className="p-8 border-t border-white/10 bg-black/40 relative z-20">
           <div className="relative">
-            <input
+            <textarea
               ref={inputRef}
               value={input}
               onChange={(e) => setInput(e.target.value)}
-              onKeyDown={(e) => e.key === 'Enter' && handleSend()}
+              onKeyDown={(e) => {
+                if (e.key === 'Enter' && !e.shiftKey) {
+                  e.preventDefault();
+                  handleSend();
+                }
+              }}
               placeholder="Tell me about your business..."
-              className="w-full bg-transparent border border-white/10 py-6 px-8 focus:outline-none focus:border-white/60 font-heading font-medium text-lg tracking-tight placeholder:text-white/50 transition-all"
+              className="w-full bg-transparent border border-white/10 py-6 px-8 pr-16 focus:outline-none focus:border-white/60 font-heading font-medium text-lg tracking-tight placeholder:text-white/50 transition-all min-h-[140px] resize-none custom-scrollbar"
             />
             <button
               onClick={handleSend}
-              className="absolute right-6 top-1/2 -translate-y-1/2 text-white/60 hover:text-white hover:scale-110 transition-all p-2"
+              className="absolute right-6 bottom-6 text-white/60 hover:text-white hover:scale-110 transition-all p-2"
             >
               <ArrowRight size={28} />
             </button>
@@ -142,7 +148,7 @@ export const ChatSal: React.FC<ChatSalProps> = ({ onDemos }) => {
               <MonitorPlay size={32} />
             </div>
           </div>
-          <h3 className="text-4xl md:text-5xl font-heading font-black mb-6 uppercase tracking-tighter">SEE THE TECH IN ACTION</h3>
+          <h3 className="text-3xl sm:text-4xl md:text-5xl font-heading font-black mb-6 uppercase tracking-tighter text-black">SEE THE TECH IN ACTION</h3>
           <p className="text-black/60 text-xs font-sans tracking-[0.4em] uppercase font-black mb-10 max-w-sm mx-auto">
             DON'T JUST TAKE OUR WORD FOR IT. VIEW REAL-WORLD SOLUTIONS WE'VE ARCHITECTED FOR CLIENTS.
           </p>

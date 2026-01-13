@@ -24,8 +24,10 @@ const DEFAULT_ADMIN: User = {
 const get = <T>(key: string, fallback: T): T => {
   if (typeof window === 'undefined') return fallback;
   const data = localStorage.getItem(key);
+  if (!data) return fallback;
   try {
-    return data ? JSON.parse(data) : fallback;
+    const parsed = JSON.parse(data);
+    return parsed === null ? fallback : parsed;
   } catch (e) {
     return fallback;
   }
@@ -92,28 +94,28 @@ export const storage = {
   getBookings: () => get<Booking[]>(KEYS.BOOKINGS, []),
   addBooking: (booking: Booking) => {
     const bookings = storage.getBookings();
-    set(KEYS.BOOKINGS, [...bookings, booking]);
+    set(KEYS.BOOKINGS, [...(bookings || []), booking]);
   },
   
   getLogs: (clientId?: string) => {
     const logs = get<ProjectLog[]>(KEYS.LOGS, []);
-    return clientId ? logs.filter(l => l.clientId === clientId) : logs;
+    return clientId ? (logs || []).filter(l => l.clientId === clientId) : (logs || []);
   },
   addLog: (log: ProjectLog) => {
     const logs = get<ProjectLog[]>(KEYS.LOGS, []);
-    set(KEYS.LOGS, [...logs, log]);
+    set(KEYS.LOGS, [...(logs || []), log]);
   },
 
   getInvoices: (clientId?: string) => {
     const invoices = get<Invoice[]>(KEYS.INVOICES, []);
-    return clientId ? invoices.filter(i => i.clientId === clientId) : invoices;
+    return clientId ? (invoices || []).filter(i => i.clientId === clientId) : (invoices || []);
   },
   addInvoice: (invoice: Invoice) => {
     const invoices = get<Invoice[]>(KEYS.INVOICES, []);
-    set(KEYS.INVOICES, [...invoices, invoice]);
+    set(KEYS.INVOICES, [...(invoices || []), invoice]);
   },
   updateInvoiceStatus: (id: string, status: 'paid') => {
     const invoices = get<Invoice[]>(KEYS.INVOICES, []);
-    set(KEYS.INVOICES, invoices.map(i => i.id === id ? { ...i, status } : i));
+    set(KEYS.INVOICES, (invoices || []).map(i => i.id === id ? { ...i, status } : i));
   }
 };
