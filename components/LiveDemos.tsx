@@ -27,7 +27,7 @@ export const LiveDemos: React.FC<{ onNext: () => void }> = ({ onNext }) => {
       title: "INFOVISION", 
       category: "SMART DATA HELP", 
       description: "A tool that turns messy, complicated data into simple, beautiful charts and graphs that anyone can understand.", 
-      image: "/infographic.png",
+      image: "./infographic.png",
       externalUrl: "https://infovision.vercel.app/",
       roi: "40% Less Time Reading Reports",
       tech: ["Smart Mapping", "Real-time Charts"],
@@ -38,7 +38,7 @@ export const LiveDemos: React.FC<{ onNext: () => void }> = ({ onNext }) => {
       title: "CHROME BUILDER", 
       category: "ROBOT BUILDER", 
       description: "A specialized AI that can code and build fully working browser tools just by listening to your voice commands.", 
-      image: "/chrome.png",
+      image: "./chrome.png",
       externalUrl: "https://chrome-extension-builder-bot.vercel.app/",
       roi: "10x Faster Coding Speed",
       tech: ["AI Brain", "Auto-Code Scripts"],
@@ -49,7 +49,7 @@ export const LiveDemos: React.FC<{ onNext: () => void }> = ({ onNext }) => {
       title: "SALSPEND", 
       category: "MONEY TRACKER", 
       description: "A smart tool that watches your spending and automatically finds where you are wasting money on subscriptions.", 
-      image: "/salspend.png",
+      image: "./salspend.png",
       externalUrl: "https://salspend.vercel.app/",
       roi: "$2k/mo Waste Detected",
       tech: ["AI Receipt Scanner", "Auto-Sorting Logic"],
@@ -60,7 +60,7 @@ export const LiveDemos: React.FC<{ onNext: () => void }> = ({ onNext }) => {
       title: "VIRAL FACTORY", 
       category: "CONTENT MAKER", 
       description: "A massive engine that makes hundreds of videos and stories for kids' channels every single hour.", 
-      image: "/story.png",
+      image: "./story.png",
       externalUrl: "https://story-book-debug.vercel.app/",
       roi: "100+ Videos Every Hour",
       tech: ["Image Gen AI", "Auto-Scripting"],
@@ -71,7 +71,7 @@ export const LiveDemos: React.FC<{ onNext: () => void }> = ({ onNext }) => {
       title: "HISTORIA", 
       category: "CREATIVE HELP", 
       description: "A tool for creators that makes history come alive with AI-generated visuals and talking points.", 
-      image: "/history.png",
+      image: "./history.png",
       externalUrl: "https://historia-agent-asset-generator.vercel.app/",
       roi: "Lower Editing Costs",
       tech: ["Storytelling AI", "Visual Maker"],
@@ -87,13 +87,15 @@ export const LiveDemos: React.FC<{ onNext: () => void }> = ({ onNext }) => {
   };
 
   const handleImageError = (id: number) => {
-    console.warn(`[NEURAL_ERROR] Failed to link asset: ${demos.find(d => d.id === id)?.image}`);
+    const demo = demos.find(d => d.id === id);
+    console.error(`[NEURAL_ERROR] Failed to load: ${window.location.origin}${demo?.image.substring(1)}`);
     setImageErrors(prev => ({ ...prev, [id]: true }));
     setLoadedImages(prev => ({ ...prev, [id]: false }));
   };
 
   const handleImageLoad = (id: number) => {
-    console.log(`[NEURAL_LINK] Asset handshake successful: ${demos.find(d => d.id === id)?.image}`);
+    const demo = demos.find(d => d.id === id);
+    console.log(`[NEURAL_LINK] Connected successfully: ${demo?.image}`);
     setLoadedImages(prev => ({ ...prev, [id]: true }));
     setImageErrors(prev => ({ ...prev, [id]: false }));
   };
@@ -137,7 +139,7 @@ export const LiveDemos: React.FC<{ onNext: () => void }> = ({ onNext }) => {
                   <div className="p-10 border-2 border-dashed border-white/10 flex flex-col items-center glass-2">
                     <AlertCircle size={48} className="text-white/20 mb-6" />
                     <h4 className="text-2xl font-heading font-black text-white/40 uppercase tracking-tighter mb-4">{selectedDemo.title} PREVIEW</h4>
-                    <p className="text-[9px] font-mono text-white/20 uppercase max-w-xs">NEURAL LINK BROKEN. ASSET "{selectedDemo.image}" NOT FOUND. CHECK PUBLIC FOLDER PERMISSION.</p>
+                    <p className="text-[9px] font-mono text-white/20 uppercase max-w-xs">NEURAL LINK BROKEN. ASSET "{selectedDemo.image.split('/').pop()}" NOT DETECTED AT ROOT.</p>
                   </div>
                 </motion.div>
               ) : (
@@ -293,7 +295,7 @@ export const LiveDemos: React.FC<{ onNext: () => void }> = ({ onNext }) => {
                       </div>
                       <div className="space-y-6">
                         <span className="text-[10px] font-mono text-white/30 uppercase block font-black tracking-widest">SYSTEM_UTILITY</span>
-                        <p className="text-xl lg:text-3xl font-heading font-bold text-white/80 uppercase leading-tight tracking-tight">{selectedDemo.description}</p>
+                        <p className="text-xl lg:text-3xl font-bold text-white/80 uppercase leading-tight tracking-tight">{selectedDemo.description}</p>
                       </div>
                    </div>
                    <div className="space-y-12">
