@@ -1,7 +1,152 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Play, ChevronRight, X, ExternalLink, Activity, Target, Terminal, Cpu, Layers, Database, Shield, Bot, GitBranch, TrendingUp, MonitorPlay, Heart, Radio, Camera, Award, Star, Info, Zap, Settings, HardDrive, Share2, Eye, Focus, Move, Film, UserCheck, Clapperboard } from 'lucide-react';
+import { Play, ChevronRight, X, ExternalLink, Activity, Target, Terminal, Cpu, Layers, Database, Shield, Bot, GitBranch, TrendingUp, MonitorPlay, Heart, Radio, Camera, Award, Star, Info, Zap, Settings, HardDrive, Share2, Eye, Focus, Move, Film, UserCheck, Clapperboard, Monitor, Sparkles } from 'lucide-react';
 import { getSalResponse } from '../services/geminiService';
+
+interface SoftwareInfo {
+  id: string;
+  name: string;
+  src: string;
+  tagline: string;
+  description: string;
+  techStats: { label: string; value: string }[];
+  url: string;
+}
+
+const softwareData: Record<string, SoftwareInfo> = {
+  davinci: {
+    id: 'davinci',
+    name: "DaVinci Resolve Studio",
+    src: "https://upload.wikimedia.org/wikipedia/commons/4/4d/DaVinci_Resolve_Studio.png",
+    tagline: "The Hollywood Standard for Color Grading.",
+    description: "The world's most advanced solution for color correction, editing, and audio post-production. We use Resolve Studio to master every frame in 32-bit float color, ensuring your brand visuals meet the same technical standards as major theatrical releases.",
+    techStats: [
+      { label: "Precision", value: "32-bit Float" },
+      { label: "Industry Use", value: "90% of Cinema" },
+      { label: "Engine", value: "DaVinci Neural" }
+    ],
+    url: "https://www.blackmagicdesign.com/ca/products/davinciresolve"
+  },
+  dehancer: {
+    id: 'dehancer',
+    name: "Dehancer Film Emulation",
+    src: "https://upload.wikimedia.org/wikipedia/commons/5/55/DehancerAppLogo.png?20240122135855",
+    tagline: "Authentic Analog Texture & Chemistry.",
+    description: "Dehancer allows us to bypass the sterile 'digital' look of modern cameras. It accurately simulates the chemical reaction of light on legendary film stocks, including optical halation, bloom, and organic grain profiles that add psychological weight to your story.",
+    techStats: [
+      { label: "Stocks", value: "60+ Emulations" },
+      { label: "Effects", value: "Real Halation" },
+      { label: "Texture", value: "Chemical Grain" }
+    ],
+    url: "https://www.dehancer.com/"
+  },
+  topaz: {
+    id: 'topaz',
+    name: "Topaz Video AI",
+    src: "https://cdn.prod.website-files.com/6005fac27a49a9cd477afb63/68af97376fbc83545d307491_icon-topaz-video.svg",
+    tagline: "Neural Reconstruction & Upscaling.",
+    description: "Production-grade AI models trained specifically for video enhancement. We use Topaz to reconstruct detail in raw footage, perform ultra-smooth frame interpolation, and upscale content to 8K while maintaining surgical sharpness and zero digital artifacts.",
+    techStats: [
+      { label: "Upscaling", value: "Up to 16K" },
+      { label: "AI Models", value: "Iris / Proteus" },
+      { label: "Function", value: "Motion Deblur" }
+    ],
+    url: "https://www.topazlabs.com/topaz-video"
+  }
+};
+
+const SoftwareItem = ({ software, onClick }: { software: SoftwareInfo, onClick: () => void }) => {
+  const [isHovered, setIsHovered] = useState(false);
+  return (
+    <button 
+      onClick={onClick}
+      className="relative flex items-center justify-center group cursor-pointer h-8 lg:h-12 px-2 outline-none"
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
+    >
+      <motion.img 
+        animate={{ opacity: isHovered ? 0.1 : 1, scale: isHovered ? 0.85 : 1 }}
+        src={software.src} 
+        className="h-6 lg:h-8 w-auto object-contain transition-all duration-300" 
+        alt={software.name} 
+      />
+      <AnimatePresence>
+        {isHovered && (
+          <motion.span 
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0, scale: 0.9 }}
+            className="absolute inset-0 flex items-center justify-center text-[7px] lg:text-[8px] font-mono font-black text-white text-center leading-none uppercase tracking-tighter"
+          >
+            {software.name}
+          </motion.span>
+        )}
+      </AnimatePresence>
+    </button>
+  );
+};
+
+const SoftwareDetailModal = ({ software, onClose }: { software: SoftwareInfo, onClose: () => void }) => {
+  return (
+    <motion.div 
+      initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
+      className="fixed inset-0 z-[400] flex items-center justify-center p-4 lg:p-12 bg-black/98 backdrop-blur-3xl"
+    >
+      <div className="max-w-4xl w-full glass-2 border-t-8 border-[#FF0000] p-8 lg:p-16 relative overflow-y-auto max-h-[90vh] custom-scrollbar shadow-[0_0_100px_rgba(255,0,0,0.2)]">
+        <button onClick={onClose} className="absolute top-6 right-6 text-white/40 hover:text-white transition-colors z-50">
+          <X size={32} />
+        </button>
+        
+        <div className="flex flex-col lg:flex-row gap-12 lg:gap-20">
+          <div className="flex-1 space-y-10">
+            <div className="space-y-4">
+              <span className="text-[10px] font-mono tracking-[0.5em] text-[#FF0000] uppercase font-black">NEURAL_INTEL_REPORT</span>
+              <div className="flex items-center gap-6">
+                 <img src={software.src} className="h-12 lg:h-20 w-auto object-contain" alt="" />
+                 <h3 className="text-3xl lg:text-6xl font-heading font-black text-white uppercase tracking-tighter leading-none">{software.name}</h3>
+              </div>
+            </div>
+
+            <div className="space-y-6">
+               <p className="text-xl lg:text-3xl font-heading font-black text-white/90 uppercase leading-tight tracking-tight border-l-4 border-[#FF0000] pl-6">
+                 {software.tagline}
+               </p>
+               <p className="text-sm lg:text-base font-heading font-medium text-white/50 uppercase leading-relaxed tracking-wide">
+                 {software.description}
+               </p>
+            </div>
+
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 pt-6 border-t border-white/10">
+               {software.techStats.map((stat, i) => (
+                 <div key={i} className="space-y-1">
+                    <span className="text-[9px] font-mono text-white/30 uppercase block font-black tracking-widest">{stat.label}</span>
+                    <span className="text-sm lg:text-lg font-heading font-black text-white uppercase">{stat.value}</span>
+                 </div>
+               ))}
+            </div>
+          </div>
+
+          <div className="lg:w-[300px] flex flex-col justify-end gap-6 shrink-0">
+             <div className="p-8 bg-white/5 border border-white/10 flex flex-col items-center text-center">
+                <Activity className="text-[#FF0000] mb-4" size={40} />
+                <p className="text-[10px] font-mono font-black text-white/40 uppercase tracking-widest leading-relaxed">
+                  SYSTEM INTEGRATED INTO MASTER PRODUCTION PIPELINE
+                </p>
+             </div>
+             <a 
+              href={software.url} 
+              target="_blank" 
+              rel="noopener noreferrer"
+              className="w-full py-6 bg-[#FF0000] text-black font-heading font-black text-[10px] tracking-[0.4em] uppercase text-center hover:bg-white transition-all shadow-2xl"
+             >
+                VIEW FULL SPECS
+             </a>
+          </div>
+        </div>
+      </div>
+    </motion.div>
+  );
+};
 
 const FormattedHeroText = ({ text }: { text: string }) => {
   if (!text) return null;
@@ -156,6 +301,7 @@ export const Hero: React.FC<{ onStart: () => void, onConsultation: () => void }>
   const [showStack, setShowStack] = useState(false);
   const [showOperatorDeepDive, setShowOperatorDeepDive] = useState(false);
   const [expandedHelpIndex, setExpandedHelpIndex] = useState<number | null>(null);
+  const [selectedSoftware, setSelectedSoftware] = useState<SoftwareInfo | null>(null);
   
   const helpAccordionItems = [
     { 
@@ -193,10 +339,10 @@ export const Hero: React.FC<{ onStart: () => void, onConsultation: () => void }>
                </span>
             </div>
             
-            <h1 className="text-4xl sm:text-6xl md:text-7xl lg:text-[4.5rem] xl:text-[7.5rem] font-heading font-black mb-6 sm:mb-8 leading-[0.9] lg:leading-[0.85] tracking-tighter uppercase stark-gradient">
-              "HI - I'M <br />
-              YOUR NEW <br />
-              <span className="toxic-text">PAL, SAL!"</span>
+            <h1 className="text-[11vw] sm:text-6xl md:text-7xl lg:text-[4.5rem] xl:text-[7.5rem] font-heading font-black mb-6 sm:mb-8 leading-[0.9] lg:leading-[0.85] tracking-tighter uppercase stark-gradient flex flex-col items-start">
+              <span className="block whitespace-nowrap">"HI - IT'S</span>
+              <span className="block whitespace-nowrap">YOUR NEW</span>
+              <span className="block whitespace-nowrap pb-4 sm:pb-6">PAL, SAL!"</span>
             </h1>
             
             <p className="text-base sm:text-lg md:text-2xl text-white/60 mb-8 sm:mb-12 leading-tight font-heading font-medium max-w-xl border-l-2 border-[#CCFF00] pl-6 sm:pl-8">
@@ -340,13 +486,17 @@ export const Hero: React.FC<{ onStart: () => void, onConsultation: () => void }>
       </AnimatePresence>
 
       <div ref={portfolioRef} className="py-20 border-t border-white/10">
-        <VideoPortfolio onConsultation={onConsultation} />
+        <VideoPortfolio onConsultation={onConsultation} onShowSoftware={(s) => setSelectedSoftware(s)} />
       </div>
+
+      <AnimatePresence>
+        {selectedSoftware && <SoftwareDetailModal software={selectedSoftware} onClose={() => setSelectedSoftware(null)} />}
+      </AnimatePresence>
     </div>
   );
 };
 
-const VideoPortfolio = ({ onConsultation }: { onConsultation: () => void }) => {
+const VideoPortfolio = ({ onConsultation, onShowSoftware }: { onConsultation: () => void, onShowSoftware: (s: SoftwareInfo) => void }) => {
   const projects = [
     { 
       id: "gxeU_tq7jH8", 
@@ -489,12 +639,14 @@ const VideoPortfolio = ({ onConsultation }: { onConsultation: () => void }) => {
                         </p>
                     </div>
                     <div className="relative z-10 flex flex-col items-end">
-                      <div className="text-right mb-6">
-                        <p className="text-[10px] font-mono font-black text-black/50 uppercase tracking-widest">PEDIGREE_REGISTRY</p>
-                        <p className="text-sm font-heading font-black text-white uppercase">OFFICIALLY NETFLIX APPROVED</p>
-                      </div>
-                      <div className="px-8 py-4 bg-black text-white font-mono font-black text-xs uppercase tracking-widest shadow-2xl border border-white/20 flex items-center gap-2">
-                        <Film size={12} className="text-[#FF0000]" /> CINEMATIC VIDEO
+                      <div className="px-8 py-6 bg-black text-white font-mono font-black text-[10px] lg:text-xs uppercase tracking-[0.2em] shadow-2xl border border-white/20 flex flex-col items-center justify-center gap-6 min-w-[240px]">
+                        <span className="opacity-60 text-[9px] tracking-[0.3em]">PRODUCTION SOFTWARE</span>
+                        <div className="flex items-center gap-6 px-4">
+                           <SoftwareItem software={softwareData.davinci} onClick={() => onShowSoftware(softwareData.davinci)} />
+                           <SoftwareItem software={softwareData.dehancer} onClick={() => onShowSoftware(softwareData.dehancer)} />
+                           <SoftwareItem software={softwareData.topaz} onClick={() => onShowSoftware(softwareData.topaz)} />
+                        </div>
+                        <span className="text-[7px] font-mono text-white/30 uppercase tracking-widest">[ CLICK_FOR_INTEL ]</span>
                       </div>
                     </div>
                   </div>
@@ -541,9 +693,13 @@ const VideoPortfolio = ({ onConsultation }: { onConsultation: () => void }) => {
                            In a digital-first world, your content is your reputation. An iPhone video signals a "startup"—this level of production signals a "market leader." High-end visuals bypass the customer's logic and hit them straight in the gut, building instant faith in what you deliver.
                          </p>
                          <div className="pt-6">
-                            <div className="flex items-center gap-4 p-6 bg-[#FF0000]/10 border border-[#FF0000]/30">
-                               <UserCheck size={20} className="text-[#FF0000] shrink-0" />
-                               <span className="text-[10px] font-mono font-black text-white uppercase tracking-widest leading-tight">NETFLIX_GRADE_STANDARDS_ACTIVE</span>
+                            <div className="flex flex-col items-center gap-4 p-8 bg-[#FF0000]/10 border border-[#FF0000]/30 min-w-[260px]">
+                               <span className="text-[10px] font-mono font-black text-white uppercase tracking-[0.3em] mb-3">NETFLIX APPROVED</span>
+                               <img 
+                                 src="https://images.ctfassets.net/y2ske730sjqp/821Wg4N9hJD8vs5FBcCGg/9eaf66123397cc61be14e40174123c40/Vector__3_.svg?w=460" 
+                                 alt="Netflix Approved" 
+                                 className="h-8 lg:h-12 w-auto object-contain"
+                               />
                             </div>
                          </div>
                       </div>
@@ -631,7 +787,7 @@ const VideoPortfolio = ({ onConsultation }: { onConsultation: () => void }) => {
                         </h4>
                         <p className="text-xs lg:text-sm font-heading font-black text-black uppercase leading-relaxed mb-10">
                            Traditional Hollywood agencies charge $50k+ for this setup. <br /> 
-                           By leveraging AI for the "boring" parts of production and keeping our core team lean, <br />
+                           By leveraging AI for the "boring" parts of production and keeping our team lean, <br />
                            I deliver <span className="bg-black text-white px-2">Cinematic Masterworks</span> for a fraction of the cost.
                         </p>
                         <button onClick={onConsultation} className="px-12 py-6 bg-black text-white font-heading font-black text-[10px] tracking-[0.4em] uppercase hover:bg-[#FF0000] transition-colors shadow-2xl">
