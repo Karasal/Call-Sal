@@ -1,12 +1,23 @@
-SAL'S PUBLIC ASSETS GUIDE
--------------------------
+SAL'S PUBLIC ASSETS GUIDE (URGENT)
+----------------------------------
 
-To make the "Live Demos" section work perfectly, please upload the following files into this 'public' folder:
+To ensure your impressive "Live Demos" section stays visually complete, follow these steps exactly:
 
-1. infographic.png (for INFOVISION)
-2. chrome.png      (for CHROME EXTENSION BUILDER BOT)
-3. salspend.png    (for SALSPEND)
-4. story.png       (for VIRAL FACTORY)
-5. history.png     (for HISTORIA)
+1. MANUALLY UPLOAD the following 5 images into the 'public' folder of your local project:
+   - infographic.png (for INFOVISION)
+   - chrome.png      (for CHROME EXTENSION BUILDER BOT)
+   - salspend.png    (for SALSPEND)
+   - story.png       (for VIRAL FACTORY)
+   - history.png     (for HISTORIA)
 
-Once these files are in this folder, the website will automatically pick them up and display them in the showroom.
+2. GIT PERSISTENCE: 
+   If these files are being deleted during sync/deployment, it is likely because your build process or .gitignore is excluding the 'public' folder or binary assets. 
+
+   ACTION: 
+   - Ensure 'public' is NOT in your .gitignore.
+   - If using a specialized deployment tool, verify that the 'public' folder is marked as a "Static Asset" directory.
+
+3. RE-SYNC:
+   Once the files are manually added to your local 'public' folder, perform a fresh 'git add public/' and 'git commit'. This will ensure they are permanently tracked in your repository.
+
+The application is now programmed to show "Neural Fallback" visuals if these files are missing, ensuring your site never looks broken!
